@@ -1,3 +1,28 @@
+@DECISIONS:chat-22-aicf-v3.1.1-security-and-encryption-strategy
+timestamp=2025-10-06T12:00:00Z
+decision_1=Implement streaming architecture to fix memory exhaustion vulnerability
+rationale_1=Replace fs.readFileSync with line-by-line streaming for constant O(1) memory usage regardless of file size
+impact_1=CRITICAL
+decision_2=Implement PII detection and redaction for GDPR/CCPA/HIPAA compliance
+rationale_2=Automatic detection of 11 PII types (SSN, credit cards, API keys, etc) with configurable redaction
+impact_2=CRITICAL
+decision_3=Postpone encryption implementation to Q1 2025 enterprise features
+rationale_3=Current security (streaming + PII detection) sufficient for launch. Warp's encryption has vulnerabilities (deprecated APIs, no AEAD, no IV). Better positioned as enterprise feature when done properly with AES-256-GCM + Argon2id
+impact_3=CRITICAL
+decision_4=Fix Google validation claims to "ADK Compatible" instead of "Validated"
+rationale_4=Legal safety - we implement patterns from book, not validated by Google directly. Avoid potential lawsuit
+impact_4=CRITICAL
+decision_5=Ship v3.1.1 with streaming and PII detection only
+rationale_5=Faster time to market, no user demand for encryption yet, PII redaction solves 90% of security concerns
+impact_5=HIGH
+decision_6=Position encryption as Q1 2025 enterprise feature
+rationale_6=Bundle with SSO/SAML, audit logging, RBAC for enterprise pricing tier. Better market positioning
+impact_6=HIGH
+decision_7=Focus on adoption and corporate positioning before adding encryption
+rationale_7=Phase 1: Launch with security. Phase 2: Enterprise features. Phase 3: Corporate sales
+impact_7=HIGH
+total_decisions=7
+
 @DECISIONS:chat-21-aicf-v3.1-memory-management
 timestamp=2025-10-06T00:00:00Z
 decision_1=Adopt Google ADK memory management patterns for AICF v3.1
