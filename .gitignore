@@ -66,3 +66,7 @@ temp/
 
 # Documentation builds
 docs/api/
+# Security test artifacts
+*%*passwd*
+security-test-temp/
+*.tar.gz
