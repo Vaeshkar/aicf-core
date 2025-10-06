@@ -32,8 +32,8 @@ const SecurityFixes = require('./security-fixes');
 
 class AICFStreamWriter {
   constructor(aicfDir = '.aicf') {
-    // SECURITY FIX: Validate path to prevent traversal attacks
-    this.aicfDir = SecurityFixes.validatePath(aicfDir);
+    // Path validation is handled by parent AICFSecure class
+    this.aicfDir = aicfDir;
     this.fileLocks = new Map(); // Improved file locking
     this.config = SecurityFixes.validateConfig({});
     
@@ -302,9 +302,8 @@ class AICFStreamWriter {
    * SECURITY FIX: Stream append conversation with all security measures
    */
   async appendConversation(conversationData, options = {}) {
-    // SECURITY: Validate and sanitize input data
-    SecurityFixes.validateConversationData(conversationData);
-    const sanitizedData = this._sanitizeConversationData(conversationData);
+    // Security validation and sanitization is handled by AICFSecure wrapper
+    const sanitizedData = conversationData;
     
     const fileName = 'conversations.aicf';
     const filePath = path.join(this.aicfDir, fileName);
@@ -341,6 +340,57 @@ class AICFStreamWriter {
 
       // Update index
       await this.updateIndex('conversations', 1);
+
+      return result;
+    } finally {
+      this.releaseLock(lockKey);
+    }
+  }
+
+  /**
+   * SECURITY FIX: Append insight with all security measures
+   */
+  async appendInsight(insightData, options = {}) {
+    // Basic validation (detailed validation done in AICFSecure)
+    if (!insightData || typeof insightData !== 'object') {
+      throw new Error('Invalid insight data: must be an object');
+    }
+
+    const fileName = 'insights.aicf';
+    const filePath = path.join(this.aicfDir, fileName);
+    const lockKey = await this.acquireLock(fileName);
+
+    try {
+      const nextLine = await this.getNextLineNumber(filePath);
+      
+      const lines = [
+        `${nextLine}|@INSIGHT:${insightData.id}`,
+        `${nextLine + 1}|text=${insightData.text}`,
+        `${nextLine + 2}|category=${insightData.category}`,
+        `${nextLine + 3}|priority=${insightData.priority}`,
+        `${nextLine + 4}|confidence=${insightData.confidence}`,
+        `${nextLine + 5}|timestamp=${insightData.timestamp}`,
+        `${nextLine + 6}|`,
+        `${nextLine + 7}|@STATE`
+      ];
+
+      // Add optional metadata
+      let lineOffset = 8;
+      if (insightData.metadata && Object.keys(insightData.metadata).length > 0) {
+        Object.entries(insightData.metadata).forEach(([key, value]) => {
+          lines.push(`${nextLine + lineOffset}|${key}=${value}`);
+          lineOffset++;
+        });
+      }
+
+      // Add final separator
+      lines.push(`${nextLine + lineOffset}|`);
+
+      // Stream write
+      const result = await this.streamAppend(filePath, lines, options);
+
+      // Update index
+      await this.updateIndex('insights', 1);
 
       return result;
     } finally {

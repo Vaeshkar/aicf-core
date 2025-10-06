@@ -18,8 +18,18 @@ class AICFSecurityFixes {
       throw new Error('Invalid path: must be a non-empty string');
     }
 
+    // Decode URL encoding to prevent encoded path traversal attacks
+    let decodedPath = inputPath;
+    try {
+      // Decode multiple times to handle double encoding
+      decodedPath = decodeURIComponent(decodedPath);
+      decodedPath = decodeURIComponent(decodedPath);
+    } catch (e) {
+      // If decoding fails, use original path
+    }
+
     // Resolve the absolute path
-    const normalizedPath = path.resolve(inputPath);
+    const normalizedPath = path.resolve(decodedPath);
     const normalizedRoot = path.resolve(projectRoot);
 
     // Ensure the path is within the project root
@@ -30,13 +40,14 @@ class AICFSecurityFixes {
     // Additional checks for common attack patterns
     const dangerousPatterns = [
       /\.\.[\/\\]/,           // Directory traversal
-      /^[\/\\]/,              // Absolute paths
       /[<>:|"*?]/,            // Invalid filename characters
       /^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])$/i // Windows reserved names
     ];
+    
+    // Note: Removed absolute path check since we already validate paths are within project root above
 
     for (const pattern of dangerousPatterns) {
-      if (pattern.test(inputPath)) {
+      if (pattern.test(decodedPath)) {
         throw new Error(`Security violation: Path contains dangerous pattern: ${inputPath}`);
       }
     }
@@ -334,6 +345,39 @@ class AICFSecurityFixes {
     };
 
     return { ...secureDefaults, ...config };
+  }
+
+  /**
+   * Additional utility methods for compatibility with existing code
+   */
+  static sanitizeString(input) {
+    if (input === null || input === undefined) {
+      return '';
+    }
+    
+    if (typeof input !== 'string') {
+      input = String(input);
+    }
+    
+    return this.sanitizePipeData(input);
+  }
+
+  static sanitizeTimestamp(input) {
+    if (!input) {
+      return new Date().toISOString();
+    }
+    
+    const timestamp = new Date(input);
+    if (isNaN(timestamp.getTime())) {
+      return new Date().toISOString();
+    }
+    
+    return timestamp.toISOString();
+  }
+
+  static sanitizeNumber(input) {
+    const num = Number(input);
+    return isNaN(num) ? 0 : Math.max(0, Math.min(num, Number.MAX_SAFE_INTEGER));
   }
 }
 

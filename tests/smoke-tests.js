@@ -16,7 +16,7 @@ class AICFSmokeTests {
   constructor() {
     this.testResults = [];
     this.startTime = Date.now();
-    this.testDir = path.join(process.cwd(), 'smoke-test-temp');
+    this.testDir = path.join(process.cwd(), 'smoke-test-dir');
   }
 
   /**
@@ -96,7 +96,7 @@ class AICFSmokeTests {
     fs.mkdirSync(this.testDir, { recursive: true });
 
     // Test basic reader/writer functionality
-    const { AICFSecure } = require(path.resolve('src/aicf-secure.js'));
+    const AICFSecure = require(path.resolve('src/aicf-secure.js'));
     const aicf = new AICFSecure(this.testDir);
 
     // Test conversation creation
@@ -136,18 +136,18 @@ class AICFSmokeTests {
    * Test 3: PII detection works
    */
   async testPIIDetection() {
-    const { PIIDetector } = require(path.resolve('src/pii-detector.js'));
+    const PIIDetector = require(path.resolve('src/pii-detector.js'));
     const detector = new PIIDetector();
 
     const testText = "Contact John Doe at john.doe@example.com or 555-123-4567. His SSN is 123-45-6789.";
-    const result = detector.detectAndRedact(testText);
+    const result = detector.redact(testText);
 
-    if (!result.redacted) {
+    if (result.detections === 0) {
       throw new Error('PII detection did not find any PII in test text');
     }
 
     const expectedTypes = ['email', 'phone', 'ssn'];
-    const foundTypes = result.piiFound.map(p => p.type);
+    const foundTypes = result.types || [];
     
     for (const expectedType of expectedTypes) {
       if (!foundTypes.includes(expectedType)) {
@@ -155,14 +155,14 @@ class AICFSmokeTests {
       }
     }
 
-    return { detectedTypes: foundTypes, redactedText: result.redactedText };
+    return { detectedTypes: foundTypes, redactedText: result.text };
   }
 
   /**
    * Test 4: Path traversal protection works
    */
   async testPathTraversalProtection() {
-    const { AICFSecurityFixes } = require(path.resolve('src/security-fixes.js'));
+    const AICFSecurityFixes = require(path.resolve('src/security-fixes.js'));
 
     const maliciousPaths = [
       '../../../etc/passwd',
@@ -203,7 +203,7 @@ class AICFSmokeTests {
     const initialMemory = process.memoryUsage();
     
     // Create large test data
-    const { AICFSecure } = require(path.resolve('src/aicf-secure.js'));
+    const AICFSecure = require(path.resolve('src/aicf-secure.js'));
     const aicf = new AICFSecure(this.testDir);
 
     // Add multiple conversations
@@ -236,7 +236,7 @@ class AICFSmokeTests {
    * Test 6: Performance is acceptable
    */
   async testPerformance() {
-    const { AICFSecure } = require(path.resolve('src/aicf-secure.js'));
+    const AICFSecure = require(path.resolve('src/aicf-secure.js'));
     const aicf = new AICFSecure(this.testDir);
 
     // Test write performance
@@ -277,7 +277,7 @@ class AICFSmokeTests {
    * Test 7: Error handling works correctly
    */
   async testErrorHandling() {
-    const { AICFSecure } = require(path.resolve('src/aicf-secure.js'));
+    const AICFSecure = require(path.resolve('src/aicf-secure.js'));
     
     // Test invalid directory
     try {

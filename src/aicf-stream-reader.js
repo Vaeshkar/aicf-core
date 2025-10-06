@@ -288,6 +288,73 @@ class AICFStreamReader {
   }
 
   /**
+   * Get insights with streaming
+   */
+  async getInsights(options = {}) {
+    const {
+      limit = 100,
+      category = null,
+      priority = null
+    } = options;
+
+    const insightsPath = path.join(this.aicfDir, 'insights.aicf');
+    if (!fs.existsSync(insightsPath)) return [];
+
+    const insights = [];
+    let currentInsight = null;
+
+    await this.streamFile(insightsPath, (line) => {
+      if (!line.trim()) return true;
+
+      const [lineNum, data] = line.split('|', 2);
+      if (!data) return true;
+      
+      if (data.startsWith('@INSIGHT:')) {
+        if (currentInsight) {
+          // Filter by category/priority if specified
+          const matchesCategory = !category || currentInsight.category === category;
+          const matchesPriority = !priority || currentInsight.priority === priority;
+          
+          if (matchesCategory && matchesPriority) {
+            insights.push(currentInsight);
+          }
+        }
+        
+        if (insights.length >= limit) {
+          return false; // Stop processing
+        }
+        
+        currentInsight = {
+          id: data.substring(9),
+          line: parseInt(lineNum),
+          metadata: {}
+        };
+      } else if (currentInsight && data.includes('=')) {
+        const [key, value] = data.split('=', 2);
+        if (['text', 'category', 'priority', 'confidence', 'timestamp'].includes(key)) {
+          currentInsight[key] = value;
+        } else {
+          currentInsight.metadata[key] = value;
+        }
+      }
+
+      return true;
+    });
+    
+    // Don't forget the last insight
+    if (currentInsight && insights.length < limit) {
+      const matchesCategory = !category || currentInsight.category === category;
+      const matchesPriority = !priority || currentInsight.priority === priority;
+      
+      if (matchesCategory && matchesPriority) {
+        insights.push(currentInsight);
+      }
+    }
+    
+    return insights;
+  }
+
+  /**
    * Search across files with streaming (memory-efficient)
    */
   async search(term, fileTypes = ['conversations', 'decisions', 'work-state', 'technical-context'], options = {}) {

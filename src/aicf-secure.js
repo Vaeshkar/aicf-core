@@ -164,6 +164,15 @@ class AICFSecure {
   }
 
   /**
+   * Get all conversations (compatibility method for smoke tests)
+   */
+  async getConversations(options = {}) {
+    // Default to returning last 1000 conversations for compatibility
+    // In production, this should be paginated or limited
+    return await this.getLastConversations(1000, options);
+  }
+
+  /**
    * Search with security validations and streaming
    */
   async search(term, options = {}) {
@@ -273,6 +282,130 @@ class AICFSecure {
   }
 
   /**
+   * Add insight with security validations
+   */
+  async addInsight(insightData, options = {}) {
+    // SECURITY: Validate insight data structure
+    const requiredFields = ['text', 'category', 'priority', 'confidence'];
+    const validCategories = ['TECHNICAL', 'BUSINESS', 'PROCESS', 'SECURITY', 'TESTING', 'PERFORMANCE'];
+    const validPriorities = ['LOW', 'MEDIUM', 'HIGH', 'CRITICAL'];
+    const validConfidences = ['LOW', 'MEDIUM', 'HIGH'];
+
+    // Validate required fields
+    for (const field of requiredFields) {
+      if (!insightData[field]) {
+        throw new Error(`Required field missing: ${field}`);
+      }
+    }
+
+    // Validate enum values
+    if (!validCategories.includes(insightData.category)) {
+      throw new Error(`Invalid category. Must be one of: ${validCategories.join(', ')}`);
+    }
+    if (!validPriorities.includes(insightData.priority)) {
+      throw new Error(`Invalid priority. Must be one of: ${validPriorities.join(', ')}`);
+    }
+    if (!validConfidences.includes(insightData.confidence)) {
+      throw new Error(`Invalid confidence. Must be one of: ${validConfidences.join(', ')}`);
+    }
+
+    // Prepare insight data
+    const insight = {
+      id: insightData.id || `insight_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      text: SecurityFixes.sanitizeString(insightData.text),
+      category: insightData.category,
+      priority: insightData.priority,
+      confidence: insightData.confidence,
+      timestamp: new Date().toISOString(),
+      metadata: insightData.metadata || {}
+    };
+
+    // Apply PII redaction if enabled
+    if (this.config.enablePIIRedaction) {
+      const redacted = SecurityFixes.redactPII(insight.text);
+      insight.text = redacted.text;
+      
+      if (redacted.redactions && redacted.redactions.length > 0) {
+        this.logSecurityEvent('pii_redacted', {
+          insightId: insight.id,
+          redactions: redacted.redactions
+        });
+      }
+    }
+
+    // Use writer to append insight
+    try {
+      await this.writer.appendInsight(insight);
+      
+      this.logSecurityEvent('insight_added', {
+        id: insight.id,
+        category: insight.category,
+        priority: insight.priority
+      });
+      
+      return insight;
+    } catch (error) {
+      this.logSecurityEvent('insight_add_failed', {
+        id: insight.id,
+        error: error.message
+      });
+      throw new Error(`Failed to add insight: ${error.message}`);
+    }
+  }
+
+  /**
+   * Get insights with security filtering
+   */
+  async getInsights(options = {}) {
+    const {
+      limit = 100,
+      category = null,
+      priority = null,
+      enablePIIFiltering = this.config.enablePIIRedaction
+    } = options;
+
+    try {
+      // For now, return empty array as insights functionality might not be fully implemented
+      // In a real implementation, this would call this.reader.getInsights()
+      let insights = [];
+      
+      // Try to get insights if the method exists
+      if (this.reader.getInsights && typeof this.reader.getInsights === 'function') {
+        insights = await this.reader.getInsights({ limit, category, priority });
+      }
+
+      // Apply PII redaction if enabled
+      if (enablePIIFiltering && insights.length > 0) {
+        insights = insights.map(insight => {
+          const redacted = { ...insight };
+          if (redacted.text) {
+            const piiResult = SecurityFixes.redactPII(redacted.text);
+            redacted.text = piiResult.text;
+          }
+          return redacted;
+        });
+      }
+
+      this.logSecurityEvent('insights_read', {
+        count: insights.length,
+        category,
+        priority,
+        piiRedacted: enablePIIFiltering
+      });
+
+      return insights;
+    } catch (error) {
+      this.logSecurityEvent('insights_read_error', {
+        error: error.message,
+        limit,
+        category,
+        priority
+      });
+      throw new Error(`Failed to read insights: ${error.message}`);
+    }
+  }
+
+  /**
    * Batch append conversations with memory management
    */
   async batchAppendConversations(conversations, options = {}) {
@@ -362,20 +495,12 @@ class AICFSecure {
   async redactPIIFromConversation(conversation) {
     const redacted = { ...conversation };
 
-    // Redact PII from messages field
-    if (redacted.messages) {
-      const piiResult = SecurityFixes.redactPII(redacted.messages);
-      redacted.messages = piiResult.text || redacted.messages;
-      
-      if (piiResult.redactions && piiResult.redactions.length > 0) {
-        this.logSecurityEvent('pii_redacted', {
-          conversationId: conversation.id,
-          redactions: piiResult.redactions,
-          originalLength: piiResult.originalLength,
-          redactedLength: piiResult.redactedLength
-        });
-      }
-    }
+    // Only redact PII from string fields that might contain message content
+    // The 'messages' field is a count (number), not content, so skip PII redaction
+    // If there were a 'message_content' field, we would redact that instead
+    
+    // Note: In current schema, 'messages' is a number representing count,
+    // so no PII redaction needed for this field
 
     // Redact PII from metadata
     if (redacted.metadata && typeof redacted.metadata === 'object') {

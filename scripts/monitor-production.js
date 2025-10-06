@@ -156,7 +156,7 @@ class AICFProductionMonitor {
       }
       
       // Basic operation test
-      const { AICFSecure } = require(path.resolve('src/aicf-secure.js'));
+      const AICFSecure = require(path.resolve('src/aicf-secure.js'));
       const aicf = new AICFSecure(testDir);
       
       // Test write operation
