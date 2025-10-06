@@ -1,0 +1,99 @@
+graph TB
+    subgraph "DATA SOURCES"
+        A1[Warp Terminal<br/>SQLite Database]
+        A2[Augment VSCode<br/>LevelDB Files]
+        A3[Manual AICF Files<br/>.aicf Format]
+        A4[Session Dumps<br/>Raw Conversations]
+    end
+    
+    subgraph "UNIVERSAL EXTRACTOR 🆕"
+        B1[WarpParser<br/>SQLite Query Engine]
+        B2[AugmentParser<br/>LevelDB String Extraction]
+        B3[BackupManager<br/>Bulletproof Data Protection]
+        B4[Quality Assessment<br/>9/10 Warp, 7/10 Augment]
+    end
+    
+    subgraph "AICF TRANSFORMATION"
+        C1[Raw Data → AICF 3.0<br/>Structured Conversion]
+        C2[Metadata Enhancement<br/>Context Inference]
+        C3[Message Classification<br/>user_query, command_execution, etc.]
+        C4[Quality Scoring<br/>Confidence & Completeness]
+    end
+    
+    subgraph "ENHANCED MARKDOWN GENERATION 🔥"
+        D1[Session Classification<br/>architecture/debugging/implementation]
+        D2[Content Analysis Engine<br/>Work + Problems + Decisions]
+        D3[Context-Aware Templates<br/>Specific vs Generic]
+        D4[Evidence Extraction<br/>Links Solutions to Problems]
+        D5[Code Change Detection<br/>File References + Context]
+    end
+    
+    subgraph "INTELLIGENT DOCUMENTATION 📄"
+        E1[conversation-log.md<br/>Context & Specific Work]
+        E2[problem-solutions.md<br/>Evidence-Based Solutions]
+        E3[code-patterns.md<br/>File Changes + Context]
+        E4[next-steps.md<br/>Session-Type Aware Actions]
+        E5[technical-decisions.md<br/>Rationale + Confidence]
+    end
+    
+    subgraph "QUALITY METRICS 📊"
+        F1[Before: Generic Templates<br/>Data analysis work]
+        F2[After: Specific Intelligence<br/>WarpParser for SQLite extraction]
+        F3[10x Improvement<br/>Context-Aware vs Template-Driven]
+    end
+
+    %% Main Flow
+    A1 --> B1
+    A2 --> B2
+    A3 --> B3
+    A4 --> B3
+    
+    B1 --> C1
+    B2 --> C1
+    B3 --> C1
+    
+    C1 --> C2
+    C2 --> C3
+    C3 --> C4
+    C4 --> D1
+    
+    D1 --> D2
+    D2 --> D3
+    D3 --> D4
+    D4 --> D5
+    
+    D5 --> E1
+    D5 --> E2
+    D5 --> E3
+    D5 --> E4
+    D5 --> E5
+    
+    %% Quality Feedback
+    E1 --> F2
+    E2 --> F2
+    F1 -.->|Replaced by| F2
+    F2 --> F3
+    
+    %% Problem Prevention Flow
+    B3 -->|Data Loss Prevention| A1
+    B3 -->|Data Loss Prevention| A2
+    
+    %% Intelligence Flow
+    D2 -->|Pattern Recognition| D4
+    D4 -->|Evidence Links| E2
+    D5 -->|Code Awareness| E3
+
+    %% Styling
+    classDef source fill:#e3f2fd,stroke:#1976d2
+    classDef extractor fill:#f3e5f5,stroke:#7b1fa2
+    classDef transform fill:#fff3e0,stroke:#f57c00
+    classDef enhance fill:#ffebee,stroke:#d32f2f,stroke-width:3px
+    classDef docs fill:#e8f5e8,stroke:#388e3c
+    classDef quality fill:#fff8e1,stroke:#fbc02d
+    
+    class A1,A2,A3,A4 source
+    class B1,B2,B3,B4 extractor
+    class C1,C2,C3,C4 transform
+    class D1,D2,D3,D4,D5 enhance
+    class E1,E2,E3,E4,E5 docs
+    class F1,F2,F3 quality

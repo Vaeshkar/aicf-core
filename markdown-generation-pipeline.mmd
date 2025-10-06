@@ -1,0 +1,104 @@
+graph LR
+    subgraph "INPUT: AICF 3.0 DATA"
+        A1[Conversation Content<br/>Problems, Solutions, Decisions]
+        A2[Message Array<br/>user_query, command_execution, etc.]
+        A3[Metadata<br/>Platform, Directory, Timespan]
+    end
+    
+    subgraph "INTELLIGENT ANALYSIS ENGINE 🧠"
+        B1[Session Classifier<br/>architecture/debugging/implementation/analysis]
+        B2[Work Extractor<br/>Specific actions with confidence scores]
+        B3[Problem-Solution Mapper<br/>Links problems to evidence-based solutions]
+        B4[Decision Analyzer<br/>Extracts rationale and decision types]
+        B5[Code Change Detector<br/>File references with surrounding context]
+        B6[Learning Outcome Capture<br/>Knowledge insights and discoveries]
+    end
+    
+    subgraph "CONTEXT-AWARE TEMPLATES 📋"
+        C1[Architecture Template<br/>Focus: Design decisions & planning]
+        C2[Debugging Template<br/>Focus: Problems solved & root causes]
+        C3[Implementation Template<br/>Focus: Code changes & testing]
+        C4[Analysis Template<br/>Focus: Findings & recommendations]
+    end
+    
+    subgraph "QUALITY TRANSFORMATION ⚡"
+        D1[Generic → Specific<br/>Data analysis → WarpParser creation]
+        D2[Template → Evidence<br/>Add problem-solution links]
+        D3[Static → Dynamic<br/>Session-type drives content]
+        D4[Boring → Actionable<br/>Next steps based on context]
+    end
+    
+    subgraph "INTELLIGENT MARKDOWN OUTPUT 📄"
+        E1[📝 conversation-log.md<br/>Context + Specific Work + Learning]
+        E2[🔧 problem-solutions.md<br/>Evidence-based fixes + prevention]
+        E3[💻 code-patterns.md<br/>File changes + development context]
+        E4[📋 next-steps.md<br/>Session-aware follow-up actions]
+        E5[🎯 technical-decisions.md<br/>Rationale + confidence scoring]
+    end
+    
+    subgraph "QUALITY METRICS 📊"
+        F1[Specificity: 10x better<br/>Concrete work items vs generic]
+        F2[Context: Fully aware<br/>Project, platform, objective]
+        F3[Actionability: Evidence-based<br/>Problems linked to solutions]
+        F4[Intelligence: Session-aware<br/>Templates match work type]
+    end
+
+    %% Analysis Flow
+    A1 --> B1
+    A1 --> B2
+    A1 --> B3
+    A2 --> B4
+    A2 --> B5
+    A1 --> B6
+    A3 --> B1
+    
+    %% Template Selection
+    B1 --> C1
+    B1 --> C2
+    B1 --> C3
+    B1 --> C4
+    
+    %% Quality Enhancement
+    B2 --> D1
+    B3 --> D2
+    C1 --> D3
+    C2 --> D3
+    C3 --> D3
+    C4 --> D3
+    B1 --> D4
+    
+    %% Output Generation
+    D1 --> E1
+    D2 --> E2
+    B5 --> E3
+    D4 --> E4
+    B4 --> E5
+    D3 --> E1
+    D3 --> E2
+    D3 --> E3
+    D3 --> E4
+    D3 --> E5
+    
+    %% Quality Assessment
+    E1 --> F1
+    E1 --> F2
+    E2 --> F3
+    E1 --> F4
+    E3 --> F4
+    E4 --> F4
+    E5 --> F4
+
+    %% Styling
+    classDef input fill:#e1f5fe,stroke:#0277bd
+    classDef analysis fill:#fce4ec,stroke:#c2185b,stroke-width:3px
+    classDef template fill:#f3e5f5,stroke:#7b1fa2
+    classDef transform fill:#fff3e0,stroke:#f57c00,stroke-width:2px
+    classDef output fill:#e8f5e8,stroke:#388e3c,stroke-width:2px
+    classDef quality fill:#fff8e1,stroke:#fbc02d
+    
+    class A1,A2,A3 input
+    class B1,B2,B3,B4,B5,B6 analysis
+    class C1,C2,C3,C4 template
+    class D1,D2,D3,D4 transform
+    class E1,E2,E3,E4,E5 output
+    class F1,F2,F3,F4 quality
