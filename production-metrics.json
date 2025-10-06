@@ -1,0 +1,62 @@
+[
+  {
+    "timestamp": "2025-10-06T13:20:57.886Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 4,
+        "heapTotalMB": 6,
+        "rssMB": 42
+      },
+      "cpu": {
+        "userCPU": 21052,
+        "systemCPU": 12614
+      },
+      "system": {
+        "uptime": 0.021511417,
+        "loadAverage": [
+          6.40380859375,
+          5.6572265625,
+          5.59912109375
+        ],
+        "freeMem": 101,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": null,
+      "operationSuccess": false,
+      "error": "AICFSecure is not a constructor",
+      "lastTestedAt": "2025-10-06T13:20:57.893Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T13:21:57.890Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 4,
+        "heapTotalMB": 6,
+        "rssMB": 41
+      },
+      "cpu": {
+        "userCPU": 36599,
+        "systemCPU": 16420
+      },
+      "system": {
+        "uptime": 60.024119,
+        "loadAverage": [
+          6.2470703125,
+          5.72216796875,
+          5.62255859375
+        ],
+        "freeMem": 90,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": null,
+      "operationSuccess": false,
+      "error": "AICFSecure is not a constructor",
+      "lastTestedAt": "2025-10-06T13:21:57.890Z"
+    }
+  }
+]

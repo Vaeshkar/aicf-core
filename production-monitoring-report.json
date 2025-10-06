@@ -1,0 +1,43 @@
+{
+  "monitoringSummary": {
+    "startTime": "2025-10-06T13:20:57.877Z",
+    "endTime": "2025-10-06T13:22:02.033Z",
+    "uptimeHours": "0h 1m",
+    "finalHealthStatus": "critical"
+  },
+  "performanceMetrics": {
+    "totalRequests": 2,
+    "successfulRequests": 0,
+    "errors": 2,
+    "successRate": "0.00%",
+    "errorRate": "100.00%",
+    "averageResponseTimeMs": 0
+  },
+  "memoryMetrics": {
+    "samples": 2,
+    "averageMemoryMB": 4,
+    "peakMemoryMB": 4
+  },
+  "alerts": {
+    "totalAlerts": 2,
+    "criticalAlerts": 2,
+    "warningAlerts": 0,
+    "errorAlerts": 0,
+    "recentAlerts": [
+      {
+        "type": "high_error_rate",
+        "severity": "critical",
+        "message": "Error rate high: 100.0%",
+        "threshold": "5%",
+        "timestamp": "2025-10-06T13:20:57.893Z"
+      },
+      {
+        "type": "high_error_rate",
+        "severity": "critical",
+        "message": "Error rate high: 100.0%",
+        "threshold": "5%",
+        "timestamp": "2025-10-06T13:21:57.890Z"
+      }
+    ]
+  }
+}
