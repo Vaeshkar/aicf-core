@@ -5,7 +5,7 @@
 ![Node](https://img.shields.io/badge/Node-%3E%3D16.0.0-brightgreen)
 ![Compression](https://img.shields.io/badge/Compression-95.5%25-success)
 ![Semantic Loss](https://img.shields.io/badge/Semantic%20Loss-0%25-success)
-![Google Validated](https://img.shields.io/badge/Google-Validated-4285F4)
+![Google ADK Compatible](https://img.shields.io/badge/Google_ADK-Compatible-4285F4)
 
 **The git-native alternative to AI context management apps. Works with ALL AI platforms. Own your data. Zero cost. No vendor lock-in.**
 
@@ -31,7 +31,7 @@ Critical security fixes implemented based on comprehensive security analysis:
 
 ### **v3.1 Memory Management with Google ADK Patterns**
 
-AICF v3.1 introduces production-proven memory management patterns from **Google's Agent Developer Kit (ADK)**, validated by **Saurabh Tiwary** (VP & GM CloudAI @ Google). AICF is now the **ONLY open-source AI memory format with Google-validated patterns**.
+AICF v3.1 implements production-proven memory management patterns from **Google's Agent Developer Kit (ADK)** as documented in "Agentic Design Patterns" by Antonio Gulli (endorsed by Saurabh Tiwary, VP & GM CloudAI @ Google).
 
 **What's New**:
 
@@ -40,7 +40,7 @@ AICF v3.1 introduces production-proven memory management patterns from **Google'
 - ✅ **Memory Types** - Episodic/semantic/procedural classification (human-like memory)
 - ✅ **@EMBEDDING** - Vector search support for semantic retrieval
 - ✅ **@CONSOLIDATION** - Memory lifecycle management with 95.5% compression
-- ✅ **Industry Validation** - Based on Google ADK, Vertex AI, LangChain/LangGraph patterns
+- ✅ **Industry Patterns** - Implements Google ADK, Vertex AI, LangChain/LangGraph patterns
 
 **[📚 Read the Release Notes](docs/AICF_v3.1_RELEASE_NOTES.md)** | **[🚀 Migration Guide](docs/MIGRATION_v3.0_to_v3.1.md)** | **[💡 Memory Management Guide](docs/MEMORY_MANAGEMENT.md)**
 
@@ -61,28 +61,28 @@ AICF-Core is the **universal, git-native** AI memory format that works across **
 - **👥 Team Collaboration**: Git = built-in sharing and versioning
 - **🧠 Memory Management**: Google ADK patterns for episodic/semantic/procedural memory (v3.1)
 - **🔍 Vector Search**: Semantic retrieval with embedding support (v3.1)
-- **🏆 Industry Validated**: Endorsed by Google CloudAI leadership (v3.1)
+- **🏆 Industry Patterns**: Implements Google ADK and LangChain/LangGraph patterns (v3.1)
 - **🔒 Security-First**: PII detection, streaming architecture, path protection (v3.1.1)
 - **✅ Compliance Ready**: GDPR/CCPA/HIPAA compliant with automatic PII redaction (v3.1.1)
 
 ## AICF vs Alternatives
 
-| Feature                 | AICF                                            | Conare.ai             | Other Desktop Apps          | Note-taking Apps    |
-| ----------------------- | ----------------------------------------------- | --------------------- | --------------------------- | ------------------- |
-| **AI Platforms**        | ALL (ChatGPT, Claude, Cursor, Copilot, v0.dev)  | Claude Code only      | Single platform only        | Manual copy-paste   |
-| **Memory Management**   | ✅ Google ADK patterns (v3.1)                   | ❌ Proprietary        | ❌ Limited                  | ❌ None             |
-| **Vector Search**       | ✅ Semantic retrieval (v3.1)                    | ❌ No                 | ❌ No                       | ❌ No               |
-| **Industry Validation** | ✅ Google CloudAI endorsed                      | ❌ No                 | ❌ No                       | ❌ No               |
-| **Security**            | ✅ PII detection, streaming (v3.1.1)            | ❌ Unknown            | ❌ Unknown                  | ❌ None             |
-| **Compliance**          | ✅ GDPR/CCPA/HIPAA ready (v3.1.1)               | ❌ Unknown            | ❌ Unknown                  | ❌ None             |
-| **Data Location**       | Your git repository                             | App's database        | App's database              | External service    |
-| **Cost**                | Free forever (open source)                      | $59-$109 lifetime     | $59+ lifetime/subscriptions | Free/paid tiers     |
-| **Portability**         | Universal - works anywhere                      | Locked to Claude Code | Locked to specific app      | Platform dependent  |
-| **Team Sharing**        | Git = built-in collaboration                    | Limited               | Limited/proprietary         | Manual sharing      |
-| **File Format**         | Open standard (.aicf files)                     | Proprietary database  | Proprietary database        | Various formats     |
-| **Compression**         | 95.5% with zero semantic loss                   | Not specified         | Not specified               | No compression      |
-| **Setup**               | One command (`npx create-ai-chat-context init`) | macOS app download    | App download + account      | Manual organization |
-| **Platform**            | Cross-platform (Node.js)                        | macOS only            | Varies                      | Web/cross-platform  |
+| Feature               | AICF                                            | Conare.ai             | Other Desktop Apps          | Note-taking Apps    |
+| --------------------- | ----------------------------------------------- | --------------------- | --------------------------- | ------------------- |
+| **AI Platforms**      | ALL (ChatGPT, Claude, Cursor, Copilot, v0.dev)  | Claude Code only      | Single platform only        | Manual copy-paste   |
+| **Memory Management** | ✅ Google ADK patterns (v3.1)                   | ❌ Proprietary        | ❌ Limited                  | ❌ None             |
+| **Vector Search**     | ✅ Semantic retrieval (v3.1)                    | ❌ No                 | ❌ No                       | ❌ No               |
+| **Industry Patterns** | ✅ Google ADK compatible                        | ❌ No                 | ❌ No                       | ❌ No               |
+| **Security**          | ✅ PII detection, streaming (v3.1.1)            | ❌ Unknown            | ❌ Unknown                  | ❌ None             |
+| **Compliance**        | ✅ GDPR/CCPA/HIPAA ready (v3.1.1)               | ❌ Unknown            | ❌ Unknown                  | ❌ None             |
+| **Data Location**     | Your git repository                             | App's database        | App's database              | External service    |
+| **Cost**              | Free forever (open source)                      | $59-$109 lifetime     | $59+ lifetime/subscriptions | Free/paid tiers     |
+| **Portability**       | Universal - works anywhere                      | Locked to Claude Code | Locked to specific app      | Platform dependent  |
+| **Team Sharing**      | Git = built-in collaboration                    | Limited               | Limited/proprietary         | Manual sharing      |
+| **File Format**       | Open standard (.aicf files)                     | Proprietary database  | Proprietary database        | Various formats     |
+| **Compression**       | 95.5% with zero semantic loss                   | Not specified         | Not specified               | No compression      |
+| **Setup**             | One command (`npx create-ai-chat-context init`) | macOS app download    | App download + account      | Manual organization |
+| **Platform**          | Cross-platform (Node.js)                        | macOS only            | Varies                      | Web/cross-platform  |
 
 **Why Choose AICF?**
 
