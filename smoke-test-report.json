@@ -1,0 +1,154 @@
+{
+  "timestamp": "2025-10-06T14:53:06.970Z",
+  "duration": "175ms",
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "successRate": "100%"
+  },
+  "results": [
+    {
+      "timestamp": "2025-10-06T14:53:06.795Z",
+      "level": "info",
+      "message": "🚀 Starting AICF v3.1.1 Smoke Tests...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.801Z",
+      "level": "info",
+      "message": "🧪 Running Security Files Exist...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.807Z",
+      "level": "success",
+      "message": "✅ Security Files Exist PASSED",
+      "details": {
+        "duration": "6ms",
+        "result": {
+          "src/aicf-stream-reader.js": "loaded successfully",
+          "src/pii-detector.js": "loaded successfully",
+          "src/aicf-secure-writer.js": "loaded successfully",
+          "src/security-fixes.js": "loaded successfully",
+          "src/aicf-encryption.js": "loaded successfully"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.808Z",
+      "level": "info",
+      "message": "🧪 Running Basic AICF Operations...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.817Z",
+      "level": "success",
+      "message": "✅ Basic AICF Operations PASSED",
+      "details": {
+        "duration": "9ms",
+        "result": {
+          "conversations": 1,
+          "insights": 1
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.817Z",
+      "level": "info",
+      "message": "🧪 Running PII Detection...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.819Z",
+      "level": "success",
+      "message": "✅ PII Detection PASSED",
+      "details": {
+        "duration": "2ms",
+        "result": {
+          "detectedTypes": [
+            "ssn",
+            "phone",
+            "email"
+          ],
+          "redactedText": "Contact John Doe at [EMAIL-REDACTED] or [PHONE-REDACTED]. His SSN is [SSN-REDACTED]."
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.819Z",
+      "level": "info",
+      "message": "🧪 Running Path Traversal Protection...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.819Z",
+      "level": "success",
+      "message": "✅ Path Traversal Protection PASSED",
+      "details": {
+        "duration": "0ms",
+        "result": {
+          "../../../etc/passwd": "correctly rejected",
+          "..\\..\\..\\windows\\system32": "correctly rejected",
+          "/etc/passwd": "correctly rejected",
+          "C:\\Windows\\System32": "correctly rejected"
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.819Z",
+      "level": "info",
+      "message": "🧪 Running Memory Usage...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.918Z",
+      "level": "success",
+      "message": "✅ Memory Usage PASSED",
+      "details": {
+        "duration": "99ms",
+        "result": {
+          "memoryIncreaseMB": "1.62",
+          "conversationsProcessed": 100
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.918Z",
+      "level": "info",
+      "message": "🧪 Running Performance...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.969Z",
+      "level": "success",
+      "message": "✅ Performance PASSED",
+      "details": {
+        "duration": "51ms",
+        "result": {
+          "writeTimeMs": 45,
+          "readTimeMs": 6,
+          "conversationsRead": 151,
+          "writeOpsPerSecond": 1111
+        }
+      }
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.969Z",
+      "level": "info",
+      "message": "🧪 Running Error Handling...",
+      "details": {}
+    },
+    {
+      "timestamp": "2025-10-06T14:53:06.969Z",
+      "level": "success",
+      "message": "✅ Error Handling PASSED",
+      "details": {
+        "duration": "0ms",
+        "result": {
+          "errorHandlingWorking": true
+        }
+      }
+    }
+  ]
+}
