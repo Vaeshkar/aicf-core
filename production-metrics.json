@@ -1618,5 +1618,245 @@
       "operationSuccess": true,
       "lastTestedAt": "2025-10-06T15:07:00.823Z"
     }
+  },
+  {
+    "timestamp": "2025-10-06T15:08:00.821Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 42
+      },
+      "cpu": {
+        "userCPU": 160029,
+        "systemCPU": 196751
+      },
+      "system": {
+        "uptime": 3120.080254334,
+        "loadAverage": [
+          4.6484375,
+          4.72216796875,
+          4.73388671875
+        ],
+        "freeMem": 155,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 5,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:08:00.827Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:09:00.823Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 6,
+        "heapTotalMB": 7,
+        "rssMB": 44
+      },
+      "cpu": {
+        "userCPU": 162032,
+        "systemCPU": 201376
+      },
+      "system": {
+        "uptime": 3180.080829292,
+        "loadAverage": [
+          4.60107421875,
+          4.69384765625,
+          4.72216796875
+        ],
+        "freeMem": 108,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 4,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:09:00.827Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:10:00.824Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 45
+      },
+      "cpu": {
+        "userCPU": 163853,
+        "systemCPU": 205420
+      },
+      "system": {
+        "uptime": 3240.081118959,
+        "loadAverage": [
+          5.00244140625,
+          4.8427734375,
+          4.77734375
+        ],
+        "freeMem": 150,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 1,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:10:00.825Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:11:00.827Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 41
+      },
+      "cpu": {
+        "userCPU": 164729,
+        "systemCPU": 207669
+      },
+      "system": {
+        "uptime": 3300.083987209,
+        "loadAverage": [
+          6.65380859375,
+          5.3017578125,
+          4.95068359375
+        ],
+        "freeMem": 192,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 5,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:11:00.833Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:12:00.829Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 42
+      },
+      "cpu": {
+        "userCPU": 166134,
+        "systemCPU": 211750
+      },
+      "system": {
+        "uptime": 3360.084374292,
+        "loadAverage": [
+          6.69287109375,
+          5.48876953125,
+          5.0380859375
+        ],
+        "freeMem": 94,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 4,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:12:00.833Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:13:00.817Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 43
+      },
+      "cpu": {
+        "userCPU": 168016,
+        "systemCPU": 215559
+      },
+      "system": {
+        "uptime": 3420.085391292,
+        "loadAverage": [
+          5.5185546875,
+          5.39208984375,
+          5.0322265625
+        ],
+        "freeMem": 152,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 4,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:13:00.821Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:14:00.813Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 6,
+        "heapTotalMB": 7,
+        "rssMB": 44
+      },
+      "cpu": {
+        "userCPU": 169581,
+        "systemCPU": 218854
+      },
+      "system": {
+        "uptime": 3480.086412292,
+        "loadAverage": [
+          4.97216796875,
+          5.24560546875,
+          4.99853515625
+        ],
+        "freeMem": 115,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 1,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:14:00.815Z"
+    }
+  },
+  {
+    "timestamp": "2025-10-06T15:15:00.815Z",
+    "system": {
+      "memory": {
+        "heapUsedMB": 5,
+        "heapTotalMB": 7,
+        "rssMB": 42
+      },
+      "cpu": {
+        "userCPU": 170892,
+        "systemCPU": 221543
+      },
+      "system": {
+        "uptime": 3540.088646625,
+        "loadAverage": [
+          4.95361328125,
+          5.2080078125,
+          5
+        ],
+        "freeMem": 124,
+        "totalMem": 32768
+      }
+    },
+    "aicf": {
+      "responseTimeMs": 4,
+      "conversationsFound": 1,
+      "operationSuccess": true,
+      "lastTestedAt": "2025-10-06T15:15:00.820Z"
+    }
   }
 ]
