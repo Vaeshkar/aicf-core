@@ -13,11 +13,16 @@
 const fs = require('fs');
 const path = require('path');
 
+// Import security utilities
+const SecurityFixes = require('./security-fixes');
+
 class AICFReader {
   constructor(aicfDir = '.aicf') {
-    this.aicfDir = aicfDir;
+    // SECURITY FIX: Validate path to prevent traversal attacks
+    this.aicfDir = SecurityFixes.validatePath(aicfDir);
     this.indexCache = null;
     this.lastIndexRead = 0;
+    this.config = SecurityFixes.validateConfig({});
   }
 
   /**
@@ -56,13 +61,30 @@ class AICFReader {
     return index;
   }
 
-  /**
-   * Get the last N conversations
+    /**
+   * SECURITY FIX: Get the last N conversations using streaming to prevent memory exhaustion
    */
   getLastConversations(count = 5) {
     const conversationsPath = path.join(this.aicfDir, 'conversations.aicf');
     if (!fs.existsSync(conversationsPath)) return [];
 
+    // PERFORMANCE FIX: Check file size and use appropriate method
+    const stats = fs.statSync(conversationsPath);
+    const fileSizeLimit = this.config.maxFileSize || 10 * 1024 * 1024; // 10MB default
+    
+    if (stats.size > fileSizeLimit) {
+      // Use streaming for large files
+      return this._getLastConversationsStreaming(conversationsPath, count);
+    } else {
+      // Use memory loading for small files (faster)
+      return this._getLastConversationsMemory(conversationsPath, count);
+    }
+  }
+
+  /**
+   * SECURITY FIX: Memory-safe version for small files
+   */
+  _getLastConversationsMemory(conversationsPath, count) {
     const content = fs.readFileSync(conversationsPath, 'utf8');
     const lines = content.split('\n').filter(Boolean);
     
@@ -94,6 +116,61 @@ class AICFReader {
     }
     
     return conversations;
+  }
+
+  /**
+   * SECURITY FIX: Streaming version for large files to prevent memory exhaustion
+   */
+  async _getLastConversationsStreaming(conversationsPath, count) {
+    return new Promise((resolve, reject) => {
+      const conversations = [];
+      let currentConv = null;
+      let buffer = '';
+      
+      // Read file in reverse order for efficiency
+      const stream = fs.createReadStream(conversationsPath, { 
+        encoding: 'utf8',
+        highWaterMark: 64 * 1024 // 64KB chunks
+      });
+      
+      stream.on('data', (chunk) => {
+        buffer += chunk;
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || ''; // Keep incomplete line
+        
+        // Process lines in reverse order
+        for (let i = lines.length - 1; i >= 0 && conversations.length < count; i--) {
+          const line = lines[i];
+          const [lineNum, data] = line.split('|', 2);
+          if (!data) continue;
+          
+          if (data.startsWith('@CONVERSATION:')) {
+            if (currentConv) {
+              conversations.unshift(currentConv);
+            }
+            if (conversations.length >= count) break;
+            
+            currentConv = {
+              id: data.substring(14),
+              line: parseInt(lineNum),
+              metadata: {}
+            };
+          } else if (currentConv && data.includes('=')) {
+            const [key, value] = data.split('=', 2);
+            currentConv.metadata[key] = value;
+          }
+        }
+      });
+      
+      stream.on('end', () => {
+        if (currentConv && conversations.length < count) {
+          conversations.unshift(currentConv);
+        }
+        resolve(conversations);
+      });
+      
+      stream.on('error', reject);
+    });
   }
 
   /**

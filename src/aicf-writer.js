@@ -12,32 +12,71 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
+
+// Import security utilities
+const SecurityFixes = require('./security-fixes');
 
 class AICFWriter {
   constructor(aicfDir = '.aicf') {
-    this.aicfDir = aicfDir;
-    this.locks = new Map(); // Simple file locking mechanism
+    // SECURITY FIX: Validate path to prevent traversal attacks
+    this.aicfDir = SecurityFixes.validatePath(aicfDir);
+    this.locks = new Map(); // File locking mechanism - will be improved
+    this.config = SecurityFixes.validateConfig({});
+    
+    // Ensure directory exists
+    if (!fs.existsSync(this.aicfDir)) {
+      fs.mkdirSync(this.aicfDir, { recursive: true, mode: 0o755 });
+    }
   }
 
   /**
-   * Acquire a simple lock for a file
+   * SECURITY FIX: Improved file locking with timeout and retry
    */
-  async acquireLock(fileName) {
+  async acquireLock(fileName, timeoutMs = 5000) {
     const lockKey = `${this.aicfDir}/${fileName}`;
+    const startTime = Date.now();
     
     while (this.locks.has(lockKey)) {
+      // Check for timeout
+      if (Date.now() - startTime > timeoutMs) {
+        throw new Error(`Lock acquisition timeout for ${fileName}`);
+      }
+      
+      // Check for stale locks (older than 30 seconds)
+      const lockInfo = this.locks.get(lockKey);
+      if (lockInfo && Date.now() - lockInfo.timestamp > 30000) {
+        console.warn(`Removing stale lock for ${fileName}`);
+        this.locks.delete(lockKey);
+        break;
+      }
+      
       await new Promise(resolve => setTimeout(resolve, 10));
     }
     
-    this.locks.set(lockKey, Date.now());
+    // Add process ID to lock to detect stale locks
+    this.locks.set(lockKey, { 
+      timestamp: Date.now(), 
+      pid: process.pid,
+      lockId: crypto.randomUUID()
+    });
+    
     return lockKey;
   }
 
   /**
-   * Release a file lock
+   * SECURITY FIX: Enhanced lock release with validation
    */
   releaseLock(lockKey) {
-    this.locks.delete(lockKey);
+    if (this.locks.has(lockKey)) {
+      const lockInfo = this.locks.get(lockKey);
+      // Verify the lock belongs to this process
+      if (lockInfo && lockInfo.pid === process.pid) {
+        this.locks.delete(lockKey);
+      } else {
+        console.warn(`Attempted to release lock owned by different process: ${lockKey}`);
+      }
+    }
   }
 
   /**
@@ -60,11 +99,19 @@ class AICFWriter {
   }
 
   /**
-   * Append conversation data atomically
+   * SECURITY FIX: Append conversation data atomically with input validation
    */
   async appendConversation(conversationData) {
     const fileName = 'conversations.aicf';
     const filePath = path.join(this.aicfDir, fileName);
+    
+    // SECURITY FIX: Validate and sanitize input data
+    const sanitizedData = this._sanitizeConversationData(conversationData);
+    const validationResult = SecurityFixes.validateConversationData(sanitizedData);
+    if (!validationResult.valid) {
+      throw new Error(`Invalid conversation data: ${validationResult.errors.join(', ')}`);
+    }
+    
     const lockKey = await this.acquireLock(fileName);
 
     try {
@@ -72,19 +119,19 @@ class AICFWriter {
       const timestamp = new Date().toISOString();
       
       const lines = [
-        `${nextLine}|@CONVERSATION:${conversationData.id}`,
-        `${nextLine + 1}|timestamp_start=${conversationData.timestamp_start || timestamp}`,
-        `${nextLine + 2}|timestamp_end=${conversationData.timestamp_end || timestamp}`,
-        `${nextLine + 3}|messages=${conversationData.messages || 1}`,
-        `${nextLine + 4}|tokens=${conversationData.tokens || 0}`,
+        `${nextLine}|@CONVERSATION:${sanitizedData.id}`,
+        `${nextLine + 1}|timestamp_start=${sanitizedData.timestamp_start || timestamp}`,
+        `${nextLine + 2}|timestamp_end=${sanitizedData.timestamp_end || timestamp}`,
+        `${nextLine + 3}|messages=${sanitizedData.messages || 1}`,
+        `${nextLine + 4}|tokens=${sanitizedData.tokens || 0}`,
         `${nextLine + 5}|`,
         `${nextLine + 6}|@STATE`
       ];
 
-      // Add optional metadata
+      // Add optional metadata (already sanitized)
       let lineOffset = 7;
-      if (conversationData.metadata) {
-        Object.entries(conversationData.metadata).forEach(([key, value]) => {
+      if (sanitizedData.metadata) {
+        Object.entries(sanitizedData.metadata).forEach(([key, value]) => {
           lines.push(`${nextLine + lineOffset}|${key}=${value}`);
           lineOffset++;
         });
@@ -140,22 +187,31 @@ class AICFWriter {
   }
 
   /**
-   * Add insight record
+   * SECURITY FIX: Add insight record with input validation and PII redaction
    */
   async addInsight(insightData) {
     const fileName = 'technical-context.aicf';
     const filePath = path.join(this.aicfDir, fileName);
+    
+    // SECURITY FIX: Validate and sanitize input data with PII redaction
+    const sanitizedData = this._sanitizeInsightData(insightData);
+    
     const lockKey = await this.acquireLock(fileName);
 
     try {
       const nextLine = this.getNextLineNumber(filePath);
       
       // Format: @INSIGHTS insight_text|category|priority|confidence
-      const line = `${nextLine}|@INSIGHTS ${insightData.text}|${insightData.category || 'GENERAL'}|${insightData.priority || 'MEDIUM'}|${insightData.confidence || 'MEDIUM'}`;
+      const line = `${nextLine}|@INSIGHTS ${sanitizedData.text}|${sanitizedData.category}|${sanitizedData.priority}|${sanitizedData.confidence}`;
       
       fs.appendFileSync(filePath, line + '\n');
 
-      return { success: true, linesAdded: 1 };
+      return { 
+        success: true, 
+        linesAdded: 1,
+        piiRedacted: sanitizedData.piiRedacted,
+        redactionLog: sanitizedData.redactionLog
+      };
     } finally {
       this.releaseLock(lockKey);
     }
@@ -309,6 +365,56 @@ class AICFWriter {
       errors,
       totalLines: lines.length
     };
+  }
+
+  /**
+   * SECURITY FIX: Sanitize conversation data to prevent injection attacks
+   */
+  _sanitizeConversationData(data) {
+    return {
+      id: SecurityFixes.sanitizePipeData(data.id),
+      messages: parseInt(data.messages) || 0,
+      tokens: parseInt(data.tokens) || 0,
+      timestamp_start: data.timestamp_start || new Date().toISOString(),
+      timestamp_end: data.timestamp_end || new Date().toISOString(),
+      metadata: this._sanitizeMetadata(data.metadata)
+    };
+  }
+
+  /**
+   * SECURITY FIX: Sanitize insight data to prevent injection attacks
+   */
+  _sanitizeInsightData(data) {
+    // SECURITY FIX: Apply PII redaction and pipe sanitization
+    const piiResult = SecurityFixes.redactPII(data.text);
+    
+    return {
+      text: SecurityFixes.sanitizePipeData(piiResult.text),
+      category: SecurityFixes.sanitizePipeData(data.category || 'GENERAL'),
+      priority: SecurityFixes.sanitizePipeData(data.priority || 'MEDIUM'),
+      confidence: SecurityFixes.sanitizePipeData(data.confidence || 'MEDIUM'),
+      piiRedacted: piiResult.redactions.length > 0,
+      redactionLog: piiResult.redactions
+    };
+  }
+
+  /**
+   * SECURITY FIX: Sanitize metadata object
+   */
+  _sanitizeMetadata(metadata) {
+    if (!metadata || typeof metadata !== 'object') {
+      return {};
+    }
+
+    const sanitized = {};
+    for (const [key, value] of Object.entries(metadata)) {
+      // Sanitize both key and value
+      const cleanKey = SecurityFixes.sanitizePipeData(key);
+      const cleanValue = SecurityFixes.sanitizePipeData(String(value));
+      sanitized[cleanKey] = cleanValue;
+    }
+    
+    return sanitized;
   }
 }
 
