@@ -1,0 +1,48 @@
+AICF Core - Universal AI Context Format Infrastructure
+====================================================
+
+Copyright (c) 2025 Dennis van Leeuwen
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
+
+ADDITIONAL TERMS
+================
+
+The AICF (AI Context Format) specification and related documentation
+are provided under the same AGPL-3.0-or-later license to ensure they
+remain open and freely available to the AI development community.
+
+CONTRIBUTORS
+============
+
+- Dennis van Leeuwen (@Vaeshkar) - Original creator and lead developer
+- AI Partnership: Claude (Anthropic) - Co-development partner
+- AI Validation: GPT-5 (OpenAI) - Technical reviewer
+- AI Support: Claude Desktop, Augment - Development assistance
+
+ACKNOWLEDGMENTS
+===============
+
+This project represents the first documented Human-AI creative partnership
+in software engineering, with multiple AI assistants contributing to the
+development, validation, and documentation of the AICF format and 
+infrastructure.
+
+The revolutionary compression techniques (95.5% with zero semantic loss)
+were developed through collaborative human-AI research and validated
+across multiple AI platforms.
+
+For more information about the development history, see:
+- docs/BIRTH_OF_AICF_HISTORIC_CONVERSATION.md
+- docs/AICF-ASSESSMENT.md
