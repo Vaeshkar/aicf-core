@@ -3,6 +3,38 @@
 > **🔒 PROTECTED FILE - Generated on 2025-10-05T17:27:03Z from Augment Data**  
 > **DO NOT OVERWRITE - Contains historical context essential for project continuity**
 
+## 🚨 CRITICAL: AI WRITING INSTRUCTIONS FOR .aicf FILES
+
+**WHEN WRITING TO ANY .aicf FILE, YOU MUST USE EXACTLY THIS FORMAT:**
+
+### ✅ CORRECT AICF 3.0 Format:
+```
+@SECTION_NAME
+key=value
+another_key=longer value here
+timestamp=2025-10-06T17:23:00Z
+metadata=additional context
+
+@ANOTHER_SECTION  
+item=description
+status=ACTIVE
+priority=HIGH
+```
+
+### ❌ NEVER Use These Formats:
+- `decision_1=text` (WRONG - use `decision=text`)
+- `T#|PRIORITY|STATUS` (WRONG - use `@TASKS` section with `key=value`)
+- Pipe-delimited data (`item1|item2|item3`)
+- Mixed human prose in data fields
+- Malformed lines without sections or key=value pairs
+
+### 🎯 Required Metadata for Common Entries:
+- **Decisions**: `decision=`, `timestamp=`, `impact=`, `confidence=`, `rationale=`
+- **Tasks**: `task=`, `status=`, `priority=`, `assignee=`, `created=`, `completed=`
+- **Conversations**: `conversation=`, `timestamp_start=`, `timestamp_end=`, `messages=`, `participants=`
+
+**This format enables agents to parse data consistently and prevents format chaos.**
+
 ---
 
 ## 🎯 Quick Reference (AI: Read This First!)

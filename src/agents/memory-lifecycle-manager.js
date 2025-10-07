@@ -9,6 +9,7 @@
 
 const fs = require('fs').promises;
 const path = require('path');
+const FileOrganizationAgent = require('./file-organization-agent');
 
 class MemoryLifecycleManager {
   constructor(options = {}) {
@@ -39,8 +40,10 @@ class MemoryLifecycleManager {
       console.log(`🔄 ${this.name} processing memory lifecycle...`);
       
       const results = {
+        fileOrganization: await this.processFileOrganization(),
         sessionDumps: await this.processSessionDumpLifecycle(),
         aicfFiles: await this.processAICFLifecycle(), 
+        memoryCompression: await this.processMemoryCompression(),
         statistics: await this.calculateStatistics()
       };
       
@@ -133,6 +136,83 @@ class MemoryLifecycleManager {
       return results;
     } catch (error) {
       return { error: error.message };
+    }
+  }
+
+  /**
+   * PHASE 1: File organization - keep directories clean
+   */
+  async processFileOrganization() {
+    try {
+      console.log('🗂️  Phase 1: File organization...');
+      
+      const orgAgent = new FileOrganizationAgent({ 
+        projectRoot: this.projectRoot,
+        dryRun: false
+      });
+      
+      // Set safe limits for automatic organization
+      orgAgent.safety.requireConfirmation = false; // Auto-organize known patterns
+      orgAgent.safety.maxBatchSize = 20; // Process up to 20 files
+      
+      const results = await orgAgent.organizeFiles();
+      
+      return {
+        filesScanned: results.scanned,
+        filesOrganized: results.organized,
+        filesSkipped: results.skipped,
+        errors: results.errors,
+        success: results.errors === 0
+      };
+      
+    } catch (error) {
+      return { error: error.message, success: false };
+    }
+  }
+
+  /**
+   * PHASE 4: Memory compression - compress large AICF files
+   */
+  async processMemoryCompression() {
+    try {
+      console.log('💾 Phase 4: Memory compression...');
+      
+      const compressionResults = [];
+      const aicfFiles = [
+        'conversations.aicf',
+        'decisions.aicf', 
+        'technical-context.aicf',
+        'work-state.aicf'
+      ];
+      
+      for (const fileName of aicfFiles) {
+        const filePath = path.join(this.paths.aicf, fileName);
+        
+        if (await this.fileExists(filePath)) {
+          const stats = await fs.stat(filePath);
+          const fileSizeMB = stats.size / (1024 * 1024);
+          
+          // Compress files larger than 500KB
+          if (stats.size > 500 * 1024) {
+            const result = await this.compressAICFFile(filePath);
+            compressionResults.push({
+              file: fileName,
+              originalSize: fileSizeMB.toFixed(2) + ' MB',
+              compressed: result.entriesCompressed,
+              spaceFreed: result.spaceFreed || 0
+            });
+          }
+        }
+      }
+      
+      return {
+        filesProcessed: compressionResults.length,
+        results: compressionResults,
+        success: true
+      };
+      
+    } catch (error) {
+      return { error: error.message, success: false };
     }
   }
 

@@ -15,6 +15,7 @@ const IntelligentConversationParser = require('./agents/intelligent-conversation
 const ConversationAnalyzer = require('./agents/conversation-analyzer');
 const MemoryLifecycleManager = require('./agents/memory-lifecycle-manager');
 const MemoryDropoff = require('./agents/memory-dropoff');
+const FileOrganizationAgent = require('./agents/file-organization-agent');
 const AgentRouter = require('./agents/agent-router');
 
 // Parsers and utilities
@@ -22,6 +23,10 @@ const { parseIndex, parseDataFile, loadAICF, query } = require('./parsers/aicf-p
 const { compileIndex, compileDataFile, writeAICF, addEntry } = require('./parsers/aicf-compiler');
 const ContextExtractor = require('./context-extractor');
 const ConversationProcessor = require('./conversation-processor');
+
+// Extractors
+const { UniversalExtractor } = require('./extractors/UniversalExtractor');
+const { AICFExtractorIntegration } = require('./extractors/AICFExtractorIntegration');
 
 /**
  * Main AICF class - Complete interface for AI Context Format
@@ -32,8 +37,9 @@ class AICF extends AICFAPI {
     this.agents = {
       conversationParser: new IntelligentConversationParser(),
       analyzer: new ConversationAnalyzer(),
-      memoryManager: new MemoryLifecycleManager(),
+      memoryManager: new MemoryLifecycleManager({ projectRoot: aicfDir }),
       memoryDropoff: new MemoryDropoff(),
+      fileOrganizer: new FileOrganizationAgent({ projectRoot: aicfDir }),
       router: new AgentRouter()
     };
   }
@@ -67,6 +73,36 @@ class AICF extends AICFAPI {
   }
 
   /**
+   * Organize project files automatically
+   */
+  async organizeFiles(options = {}) {
+    return await this.agents.fileOrganizer.organizeFiles();
+  }
+
+  /**
+   * Run complete memory lifecycle (file organization + memory management)
+   */
+  async runMemoryLifecycle() {
+    return await this.agents.memoryManager.processLifecycle();
+  }
+
+  /**
+   * Extract conversations from all available AI platforms
+   */
+  async extractConversations(options = {}) {
+    const extractor = new AICFExtractorIntegration();
+    return await extractor.extractAndIntegrate(options);
+  }
+
+  /**
+   * Get status of conversation extraction systems
+   */
+  async getExtractionStatus() {
+    const extractor = new AICFExtractorIntegration();
+    return await extractor.getStatus();
+  }
+
+  /**
    * Get version information
    */
   static getVersion() {
@@ -93,6 +129,7 @@ module.exports = {
   ConversationAnalyzer,
   MemoryLifecycleManager,
   MemoryDropoff,
+  FileOrganizationAgent,
   AgentRouter,
   
   // Parsers and utilities
@@ -106,6 +143,10 @@ module.exports = {
   addEntry,
   ContextExtractor,
   ConversationProcessor,
+  
+  // Extractors
+  UniversalExtractor,
+  AICFExtractorIntegration,
   
   // Convenience factory methods
   create: AICF.create,

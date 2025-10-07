@@ -1,0 +1,49 @@
+@CONVERSATION:warp_gpt5_consistency_test
+timestamp=2025-10-07T07:51:09Z
+platform=warp
+model=gpt-5 (low reasoning)
+interface=Warp Agent Mode
+session_scope=current-conversation
+
+@CONTEXT
+pwd=/Users/leeuwen/Programming/aicf-core
+home=/Users/leeuwen
+os=MacOS
+shell=zsh@5.9
+codebase=aicf-core:/Users/leeuwen/Programming/aicf-core
+purpose=Export current conversation again for consistency test; align with house AICF style
+@CONTEXT_END
+
+@MESSAGES
+[2025-10-07T07:39:33Z] user: Provided a detailed summary of prior multi-LLM AICF export experiments and asked about testing GPT-5 in Warp.
+[2025-10-07T07:40:xxZ] assistant: Recommended testing GPT-5 in Warp; explained benefits and offered to prepare an optimized export prompt.
+[2025-10-07T07:42:13Z] user: Instructed export of current conversation to experiments/llm-export-test/warp_gpt5; included environment context.
+[2025-10-07T07:42:20Z] assistant: Confirmed plan to create directory and write AICF file.
+[2025-10-07T07:46:xxZ] assistant: Created directory and wrote AICF XML export file.
+[2025-10-07T07:47:29Z] user: Noted switching from GPT-5 high reasoning to low reasoning due to 165s thinking time.
+[2025-10-07T07:48:09Z] user: Asked to look at files in warp_gpt folder.
+[2025-10-07T07:48:40Z] assistant: Listed folders and compared formats between Claude (sectioned) and GPT-5 (XML).
+[2025-10-07T07:49:37Z] user: Said will run another test.
+[2025-10-07T07:51:09Z] user: Requested second export and to mirror .aicf/conversation-memory.aicf style.
+@MESSAGES_END
+
+@INSIGHTS
+- Interface constant, model variable: Claude used @SECTION pipe style while GPT-5 used XML; this test aligns GPT-5 output to house style to evaluate interface-agnostic standardization potential.
+- Reasoning mode affects latency significantly; low reasoning preferable for deterministic export tasks.
+@INSIGHTS_END
+
+@DECISIONS
+- Create a second export in warp_gpt5 using house @SECTION style for comparability with existing .aicf files.
+- Preserve concise message summaries, not verbatim, to be consistent with prior AICF artifacts.
+@DECISIONS_END
+
+@ARTIFACTS
+- previous_xml=/Users/leeuwen/Programming/aicf-core/experiments/llm-export-test/warp_gpt5/aicf_export_warp_gpt5_2025-10-07T074213Z.aicf
+@ARTIFACTS_END
+
+@METADATA
+export_version=1.0
+format_style=aicf-sectioned
+exported_by=Warp Agent Mode
+file_role=consistency_run_2
+@METADATA_END

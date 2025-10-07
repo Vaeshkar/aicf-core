@@ -1,0 +1,124 @@
+<AICF version="1.0">
+  <meta>
+    <title>Warp AICF Export - gpt-5 (low reasoning)</title>
+    <created_at>2025-10-07T07:42:13Z</created_at>
+    <exported_by>Warp Agent Mode</exported_by>
+    <export_profile>warp_gpt5</export_profile>
+    <llm>
+      <model>gpt-5 (low reasoning)</model>
+      <provider>OpenAI</provider>
+      <interface>Warp</interface>
+    </llm>
+    <format>
+      <name>AI Context File Format</name>
+      <short>AICF</short>
+      <spec_version>1.0</spec_version>
+    </format>
+    <identifiers>
+      <session_scope>current-conversation</session_scope>
+      <file_name>aicf_export_warp_gpt5_2025-10-07T074213Z.aicf</file_name>
+    </identifiers>
+  </meta>
+
+  <environment>
+    <os>
+      <platform>MacOS</platform>
+    </os>
+    <shell>
+      <name>zsh</name>
+      <version>5.9</version>
+    </shell>
+    <time>2025-10-07T07:42:13Z</time>
+    <workspace>
+      <pwd>/Users/leeuwen/Programming/aicf-core</pwd>
+      <home>/Users/leeuwen</home>
+    </workspace>
+    <codebases>
+      <codebase>
+        <name>aicf-core</name>
+        <path>/Users/leeuwen/Programming/aicf-core</path>
+        <indexed>true</indexed>
+      </codebase>
+    </codebases>
+  </environment>
+
+  <rules>
+    <precedence>ascending; later overrides earlier; project over personal; subdirectory over parent</precedence>
+    <rule>
+      <id>h5omxhdqMFosHyapvAqKl5</id>
+      <type>personal</type>
+      <content>User Dennis van Leeuwen is a strategist-turned-software-engineer... skills across JS, Python, React, cloud; interests in AI, future-of-work, education; strong soft skills.</content>
+    </rule>
+  </rules>
+
+  <context>
+    <summary>
+      The user is running a multi-LLM, multi-interface experiment to evaluate AICF export quality. They compared Claude (in several wrappers), Copilot, Augment, GPT (Codex), Gemini 2.5 Pro, and o1-preview. Findings: wrappers standardize output; Claude consistent with wrapper-specific style; GPT produced distinct but valid exports; Copilot outputs appear similar across underlying LLMs; the export approach is viable and ethically preferable to invasive system extraction.
+    </summary>
+    <goals>
+      <goal>Export the current Warp conversation in AICF format to experiments/llm-export-test/warp_gpt5</goal>
+    </goals>
+  </context>
+
+  <conversation>
+    <turn index="1">
+      <role>user</role>
+      <content>Provided a detailed summary of prior experiments comparing AICF exports across multiple models and interfaces, and asked whether to test GPT-5 in Warp.</content>
+      <timestamp>2025-10-07T07:39:33Z</timestamp>
+    </turn>
+    <turn index="2">
+      <role>assistant</role>
+      <content>Recommended testing GPT-5 in Warp to add a new datapoint, outlined why it is useful (direct comparison, latest capabilities, interface consistency), and offered to prepare an optimized export prompt.</content>
+    </turn>
+    <turn index="3">
+      <role>user</role>
+      <content>Instructed to export the current conversation in AICF format to aicf-core/experiments/llm-export-test/warp_gpt5 and provided environment context.</content>
+      <timestamp>2025-10-07T07:42:13Z</timestamp>
+    </turn>
+    <turn index="4">
+      <role>assistant</role>
+      <content>Confirmed plan: create target directory and write an AICF export file.</content>
+    </turn>
+    <turn index="5">
+      <role>assistant</role>
+      <content>Executed directory creation and proceeded to generate and save the AICF export.</content>
+    </turn>
+  </conversation>
+
+  <insights>
+    <insight>
+      <type>experiment-design</type>
+      <content>Using the same Warp interface isolates model differences while holding the wrapper constant, improving comparability of AICF outputs.</content>
+    </insight>
+    <insight>
+      <type>ethics</type>
+      <content>User-initiated export continues to validate privacy-respecting design vs. automated system scraping.</content>
+    </insight>
+  </insights>
+
+  <decisions>
+    <decision>
+      <who>assistant</who>
+      <what>Create target directory and save export with timestamped filename.</what>
+      <why>To place output alongside other experiment artifacts and ensure deterministic traceability.</why>
+      <result>Directory ensured and file written.</result>
+    </decision>
+  </decisions>
+
+  <artifacts>
+    <file>
+      <path>/Users/leeuwen/Programming/aicf-core/experiments/llm-export-test/warp_gpt5/aicf_export_warp_gpt5_2025-10-07T074213Z.aicf</path>
+      <kind>aicf</kind>
+    </file>
+  </artifacts>
+
+  <compliance>
+    <format_adherence>High</format_adherence>
+    <completeness>Conversation summary, environment, rules, insights, and decisions included.</completeness>
+    <limitations>Does not include external attachments or code search results.</limitations>
+  </compliance>
+
+  <notes>
+    <security>No secrets captured. The export describes actions and environment metadata only.</security>
+  </notes>
+</AICF>

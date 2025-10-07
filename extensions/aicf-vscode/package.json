@@ -1,0 +1,164 @@
+{
+  "name": "aicf-core-vscode",
+  "displayName": "AICF Core - AI Context Memory",
+  "description": "Preserve AI conversation context across platforms with continuous memory. Works with Claude, Copilot, Augment, ChatGPT, and Warp AI.",
+  "version": "0.1.0",
+  "publisher": "dennisvanleeuwen",
+  "author": {
+    "name": "Dennis van Leeuwen"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dennisvanleeuwen/aicf-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dennisvanleeuwen/aicf-core/issues"
+  },
+  "homepage": "https://github.com/dennisvanleeuwen/aicf-core#readme",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "context",
+    "memory",
+    "conversations",
+    "claude",
+    "copilot",
+    "augment",
+    "chatgpt",
+    "warp",
+    "aicf",
+    "export",
+    "cross-platform",
+    "integration"
+  ],
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aicf.exportCurrent",
+        "title": "AICF: Export Current AI Conversation",
+        "icon": "$(archive)"
+      },
+      {
+        "command": "aicf.exportAll",
+        "title": "AICF: Export All Recent Conversations"
+      },
+      {
+        "command": "aicf.openSettings",
+        "title": "AICF: Open Settings"
+      },
+      {
+        "command": "aicf.discoverConversations",
+        "title": "AICF: Discover AI Conversations"
+      },
+      {
+        "command": "aicf.testGPTDetection",
+        "title": "AICF: Test ChatGPT Detection"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "aicf.exportCurrent",
+        "key": "ctrl+shift+e",
+        "mac": "cmd+shift+e",
+        "when": "!inQuickOpen"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "aicf.exportCurrent",
+          "when": "workspaceFolderCount > 0"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "AICF Core",
+      "properties": {
+        "aicf.autoDetect": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically detect AI conversation activity"
+        },
+        "aicf.autoExport": {
+          "type": "boolean",
+          "default": false,
+          "description": "Automatically export conversations after idle period"
+        },
+        "aicf.idleTimeout": {
+          "type": "number",
+          "default": 300,
+          "description": "Idle timeout in seconds before suggesting export"
+        },
+        "aicf.exportPath": {
+          "type": "string",
+          "default": ".aicf/conversations",
+          "description": "Directory for AICF exports (relative to workspace)"
+        },
+        "aicf.notificationLevel": {
+          "type": "string",
+          "enum": [
+            "all",
+            "important",
+            "none"
+          ],
+          "default": "important",
+          "description": "Level of export suggestions to show"
+        },
+        "aicf.platformsToMonitor": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "claude",
+              "copilot",
+              "augment",
+              "chatgpt",
+              "warp"
+            ]
+          },
+          "default": [
+            "claude",
+            "copilot",
+            "augment",
+            "chatgpt"
+          ],
+          "description": "AI platforms to monitor for conversations"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "package": "npx vsce package",
+    "publish": "npx vsce publish"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0",
+    "vsce": "^2.15.0"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  }
+}
