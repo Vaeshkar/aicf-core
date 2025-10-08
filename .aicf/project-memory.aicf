@@ -1,0 +1,101 @@
+@CONVERSATION:aicf_project_continuous_memory
+@PROJECT:aicf-core
+@UPDATED:2025-10-08T11:14:57Z
+
+# AICF-Core Project Memory
+
+## PROJECT OVERVIEW
+AI-powered code generation and orchestration system using multiple LLM providers with institutional memory through AICF files.
+
+## USER PROFILE: Dennis van Leeuwen
+- Strategist-turned-software-engineer, 25+ years experience
+- Expert in: JavaScript, Python, React, Node.js, cloud tooling
+- Focus: Scalable, user-centered applications
+- Preferences: Quality over complexity, working solutions over theory
+
+## CURRENT ARCHITECTURE STATUS
+### ✅ WORKING SYSTEM (v2.0 - Simple)
+- **Location**: /aiob-core/src/simple-orchestrator.js
+- **Status**: Proven working, committed, tested
+- **Approach**: 4-phase sequential (Infrastructure → Backend → Frontend → QA)
+- **Models**: Claude 3.5 (architecture) + GPT-4 (implementation)  
+- **Result**: Successfully generates working applications
+
+### 🗄️ ARCHIVED SYSTEM (v3.0 - Complex)
+- **Location**: /aiob-core/archive/v3-complex-system/
+- **Status**: Over-engineered, archived for reference
+- **Issues**: Complex validation loops, cost optimization maze, debug iterations
+- **Lesson**: Complexity ≠ Quality
+
+## TECHNICAL STACK
+- **Runtime**: Node.js with ES modules
+- **AI Providers**: Claude, OpenAI, OpenRouter
+- **Architecture**: Multi-provider orchestration
+- **Context**: AICF institutional memory system
+- **Build Output**: Full-stack applications (React + Express)
+
+## KEY INSIGHTS LEARNED
+1. **Simple beats complex**: Working v1 > broken v3
+2. **Quality models win**: Premium LLMs + good prompts > cheap LLMs + iterations
+3. **Cost per quality point**: Claude 3.5 = 4x more efficient than mixed cheap models
+4. **Context matters**: AICF files = valuable institutional memory
+5. **User feedback critical**: Dennis can build better in 15min → need higher complexity
+
+## FUTURE ROADMAP
+### Phase 1: Current Foundation ✅
+- Simple orchestrator working
+- Modern model integration
+- Clean execution
+
+### Phase 2: Parallel Architecture (Next)
+- Event-driven agents
+- File watcher + stitching
+- Reactive orchestration
+- True parallelism vs sequential
+
+### Phase 3: Advanced Features
+- Higher complexity projects
+- Better prompting strategies  
+- RAG-enhanced context
+- Logic agent integration
+
+## PROJECT STRUCTURE
+```
+/aicf-core/
+├── .aicf/                    # Memory context files
+├── aiob-core/
+│   ├── src/
+│   │   ├── simple-orchestrator.js    # Current working system
+│   │   ├── providers/                # AI provider implementations  
+│   │   └── agents/                   # Specialized AI agents
+│   ├── archive/v3-complex-system/    # Preserved complex work
+│   ├── output/                       # Generated projects
+│   ├── docs/                         # Analysis & documentation
+│   └── poc/                          # Proof of concepts
+```
+
+## BUILD EXAMPLES
+### Latest Success: simple-todo-app
+- **Generated**: 18 files
+- **Technology**: React + Express + Node.js
+- **API**: Full CRUD with JSON persistence
+- **Status**: Working, tested, running on localhost:8080
+- **Quality**: Basic but functional
+
+## ENVIRONMENT DETAILS  
+- **OS**: MacOS
+- **Shell**: zsh 5.9
+- **Node**: v16.15.1
+- **Git**: Active repository with regular commits
+- **IDE**: Terminal-based development
+
+## COMMUNICATION PATTERNS
+- Dennis prefers direct, practical approach
+- Values working solutions over theoretical perfection  
+- Appreciates cost-efficiency analysis
+- Wants to see actual results quickly
+- Good at identifying over-engineering
+
+@STATE:foundation_established
+@CONFIDENCE:high
+@NEXT_SESSION_FOCUS:parallel_agent_architecture
