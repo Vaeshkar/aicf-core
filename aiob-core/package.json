@@ -1,0 +1,37 @@
+{
+  "name": "aiob-core",
+  "version": "0.1.0",
+  "description": "AI Operations Board - Intelligent AI-to-AI orchestration with AICF context sharing",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test test/*.test.js",
+    "demo": "node examples/demo.js"
+  },
+  "keywords": [
+    "ai",
+    "orchestration",
+    "aicf",
+    "multi-ai",
+    "collaboration"
+  ],
+  "author": "Dennis van Leeuwen",
+  "license": "MIT",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.0",
+    "axios": "^1.6.2",
+    "chalk": "^5.3.0",
+    "commander": "^11.1.0",
+    "dotenv": "^17.2.3",
+    "glob": "^8.1.0",
+    "inquirer": "^9.2.12",
+    "node-fetch": "^3.3.2",
+    "openai": "^4.58.1",
+    "ora": "^7.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,13 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  background-color: var(--background-color);
+}
+.logo {
+  color: var(--text-color);
+}
+.toggle-label {
+  color: var(--text-color);
+}

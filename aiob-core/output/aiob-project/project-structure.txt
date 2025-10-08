@@ -1,0 +1,18 @@
+taskmaster-pro/
+├── backend/
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── middleware/
+│   │   ├── utils/
+│   │   └── data/
+│   └── package.json
+└── frontend/
+    ├── public/
+    │   └── index.html
+    ├── src/
+    │   ├── components/
+    │   ├── hooks/
+    │   ├── utils/
+    │   ├── styles/
+    │   └── App.js
+    └── package.json

@@ -1,0 +1,8 @@
+@CONVERSATION:simple-todo-app_debug_loop
+timestamp_start=2025-10-08T09:42:07.781Z
+initial_quality=25
+target_quality=100
+max_iterations=5
+
+@STATE
+debug_loop_started=true

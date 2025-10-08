@@ -1,0 +1,15 @@
+import React from 'react';
+import TodoList from './components/TodoList';
+import AddTodo from './components/AddTodo';
+
+const App = () => {
+  return (
+    <div className="container mx-auto p-4">
+      <h1>Todo App</h1>
+      <AddTodo />
+      <TodoList />
+    </div>
+  );
+};
+
+export default App;

@@ -1,0 +1,21 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+header {
+    text-align: center;
+}
+
+#add-todo-form {
+    margin-bottom: 1em;
+}
+
+#new-todo-input {
+    width: 70%;
+    padding: 0.5em;
+}
+
+#todo-list {
+    list-style-type: none;
+    padding: 0;
+}
