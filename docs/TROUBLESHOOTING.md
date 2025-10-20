@@ -65,13 +65,13 @@ Webpack or bundler can't find the module.
 
 1. **Check module resolution:**
 
-   ```javascript
+   ```typescript
    // Use explicit path
-   const { AICF } = require("aicf-core");
+   import { AICF } from "aicf-core";
    ```
 
 2. **Update webpack config:**
-   ```javascript
+   ```typescript
    module.exports = {
      resolve: {
        modules: ["node_modules"],
@@ -95,7 +95,7 @@ Error: ENOENT: no such file or directory, open '.aicf/index.aicf'
 
 1. **Create directory first:**
 
-   ```javascript
+   ```typescript
    const fs = require("fs");
    const path = require("path");
 
@@ -109,7 +109,7 @@ Error: ENOENT: no such file or directory, open '.aicf/index.aicf'
 
 2. **Use absolute paths:**
 
-   ```javascript
+   ```typescript
    const aicfDir = path.join(__dirname, ".aicf");
    const aicf = AICF.create(aicfDir);
    ```
@@ -167,7 +167,7 @@ Error: EMFILE: too many open files
 
 2. **Close readers properly:**
 
-   ```javascript
+   ```typescript
    // Use reader pooling
    class AICFPool {
      constructor(aicfDir, poolSize = 5) {
@@ -180,7 +180,7 @@ Error: EMFILE: too many open files
 
 3. **Reuse instances:**
 
-   ```javascript
+   ```typescript
    // ✅ Good - reuse instance
    const reader = new AICFReader(".aicf");
    const stats1 = reader.getStats();
@@ -209,7 +209,7 @@ Error: EMFILE: too many open files
 
 1. **Run health check:**
 
-   ```javascript
+   ```typescript
    const health = aicf.healthCheck();
    console.log("Status:", health.status);
    console.log("Issues:", health.issues);
@@ -217,7 +217,7 @@ Error: EMFILE: too many open files
 
 2. **Backup and repair:**
 
-   ```javascript
+   ```typescript
    // Backup corrupted file
    fs.copyFileSync(
      ".aicf/conversation-memory.aicf",
@@ -235,7 +235,7 @@ Error: EMFILE: too many open files
    ```
 
 4. **Rebuild index:**
-   ```javascript
+   ```typescript
    await aicf.rebuildIndex();
    ```
 
@@ -251,7 +251,7 @@ Error: Invalid line format at line 42
 
 1. **Validate file format:**
 
-   ```javascript
+   ```typescript
    const validator = new AICFValidator();
    const result = validator.validateFile(".aicf/conversation-memory.aicf");
 
@@ -268,7 +268,7 @@ Error: Invalid line format at line 42
    ```
 
 3. **Remove invalid lines:**
-   ```javascript
+   ```typescript
    // Use safe mode to skip invalid lines
    const reader = new AICFReader(".aicf", { safeMode: true });
    ```
@@ -289,7 +289,7 @@ Error: Invalid line format at line 42
 
 1. **Use date range filters:**
 
-   ```javascript
+   ```typescript
    // ✅ Fast - filtered query
    const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
    const recent = reader.getConversationsByDate(lastWeek);
@@ -300,7 +300,7 @@ Error: Invalid line format at line 42
 
 2. **Limit result sets:**
 
-   ```javascript
+   ```typescript
    // ✅ Fast - limited results
    const last10 = reader.getLastConversations(10);
 
@@ -310,7 +310,7 @@ Error: Invalid line format at line 42
 
 3. **Use caching:**
 
-   ```javascript
+   ```typescript
    class CachedReader {
      constructor(reader) {
        this.reader = reader;
@@ -327,7 +327,7 @@ Error: Invalid line format at line 42
    ```
 
 4. **Profile queries:**
-   ```javascript
+   ```typescript
    console.time("query");
    const results = aicf.query("high-impact decisions");
    console.timeEnd("query");
@@ -345,7 +345,7 @@ Error: Invalid line format at line 42
 
 1. **Use streaming for large files:**
 
-   ```javascript
+   ```typescript
    const stream = fs.createReadStream(".aicf/conversation-memory.aicf");
    stream.on("data", (chunk) => {
      // Process chunk
@@ -354,7 +354,7 @@ Error: Invalid line format at line 42
 
 2. **Implement memory limits:**
 
-   ```javascript
+   ```typescript
    const aicf = AICF.create(".aicf", {
      maxMemory: 100 * 1024 * 1024, // 100MB
    });
@@ -362,13 +362,13 @@ Error: Invalid line format at line 42
 
 3. **Run memory dropoff:**
 
-   ```javascript
+   ```typescript
    const dropoff = new MemoryDropoff();
    await dropoff.executeDropoff("30-day");
    ```
 
 4. **Monitor memory:**
-   ```javascript
+   ```typescript
    setInterval(() => {
      const usage = process.memoryUsage();
      console.log("Memory:", Math.round(usage.heapUsed / 1024 / 1024), "MB");
@@ -391,7 +391,7 @@ Error: Invalid line format at line 42
 
 1. **Check for unclosed resources:**
 
-   ```javascript
+   ```typescript
    // ✅ Good - reuse instances
    const reader = new AICFReader(".aicf");
 
@@ -404,7 +404,7 @@ Error: Invalid line format at line 42
 
 2. **Clear caches periodically:**
 
-   ```javascript
+   ```typescript
    setInterval(
      () => {
        cache.clear();
@@ -414,7 +414,7 @@ Error: Invalid line format at line 42
    ```
 
 3. **Use weak references:**
-   ```javascript
+   ```typescript
    const cache = new WeakMap();
    ```
 
@@ -433,14 +433,14 @@ Error: Invalid line format at line 42
 
 1. **Check data exists:**
 
-   ```javascript
+   ```typescript
    const stats = reader.getStats();
    console.log("Total conversations:", stats.counts.conversations);
    ```
 
 2. **Verify query syntax:**
 
-   ```javascript
+   ```typescript
    // Try different queries
    const results1 = aicf.query("decisions");
    const results2 = aicf.query("high impact");
@@ -448,7 +448,7 @@ Error: Invalid line format at line 42
    ```
 
 3. **Check date ranges:**
-   ```javascript
+   ```typescript
    // Expand date range
    const allTime = reader.getConversationsByDate(new Date(0));
    ```
@@ -464,7 +464,7 @@ Error: Invalid line format at line 42
 
 1. **Improve query specificity:**
 
-   ```javascript
+   ```typescript
    // ❌ Vague
    aicf.query("stuff");
 
@@ -473,7 +473,7 @@ Error: Invalid line format at line 42
    ```
 
 2. **Use exact filters:**
-   ```javascript
+   ```typescript
    // Instead of natural language query
    const highImpact = reader.getDecisionsByImpact("HIGH");
    const security = highImpact.filter((d) =>
@@ -516,7 +516,7 @@ Property 'logConversation' does not exist on type 'AICF'
 
 ### Enable Debug Logging
 
-```javascript
+```typescript
 // Set environment variable
 process.env.AICF_DEBUG = "true";
 
@@ -539,8 +539,8 @@ grep "conv_001" .aicf/conversation-memory.aicf
 
 ### Performance Profiling
 
-```javascript
-const { performance } = require("perf_hooks");
+```typescript
+import { performance } from "perf_hooks";
 
 const start = performance.now();
 const results = aicf.query("decisions");

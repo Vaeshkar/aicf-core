@@ -28,14 +28,14 @@ Guide for migrating between AICF versions and converting from other formats.
 #### 1. API Changes
 
 **v2.x:**
-```javascript
+```typescript
 const aicf = require('aicf-core');
 aicf.log(data);
 ```
 
 **v3.0:**
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const aicf = AICF.create('.aicf');
 await aicf.logConversation(data);
 ```
@@ -63,7 +63,7 @@ status=completed
 #### 3. Configuration Changes
 
 **v2.x:**
-```javascript
+```typescript
 const aicf = require('aicf-core')({
   dir: '.aicf',
   format: 'v2'
@@ -71,8 +71,8 @@ const aicf = require('aicf-core')({
 ```
 
 **v3.0:**
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const aicf = AICF.create('.aicf');
 ```
 
@@ -93,10 +93,10 @@ npm install aicf-core@latest
 
 #### Step 3: Run Migration Script
 
-```javascript
-const { AICF } = require('aicf-core');
-const fs = require('fs');
-const path = require('path');
+```typescript
+import { AICF } from 'aicf-core';
+import fs from 'fs';
+import path from 'path';
 
 async function migrateV2ToV3() {
   console.log('Starting migration from v2.x to v3.0...');
@@ -147,8 +147,8 @@ migrateV2ToV3().catch(console.error);
 
 #### Step 4: Verify Migration
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 
 async function verifyMigration() {
   const aicf = AICF.create('.aicf-v3');
@@ -173,13 +173,13 @@ verifyMigration().catch(console.error);
 
 Update your application to use the new v3.0 API:
 
-```javascript
+```typescript
 // Old v2.x code
 const aicf = require('aicf-core');
 aicf.log({ id: 'conv_001', messages: 10 });
 
 // New v3.0 code
-const { AICF } = require('aicf-core');
+import { AICF } from 'aicf-core';
 const aicf = AICF.create('.aicf');
 await aicf.logConversation({
   id: 'conv_001',
@@ -202,9 +202,9 @@ await aicf.logConversation({
 
 ### Conversion Script
 
-```javascript
-const { AICF } = require('aicf-core');
-const fs = require('fs');
+```typescript
+import { AICF } from 'aicf-core';
+import fs from 'fs';
 
 async function convertJSONToAICF(jsonFile, aicfDir) {
   console.log('Converting JSON to AICF...');
@@ -309,8 +309,8 @@ convertJSONToAICF('conversations.json', '.aicf')
 
 ### Conversion Script
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const sqlite3 = require('sqlite3').verbose();
 
 async function convertSQLiteToAICF(dbPath, aicfDir) {
@@ -374,9 +374,9 @@ convertSQLiteToAICF('conversations.db', '.aicf')
 
 ### Conversion Script
 
-```javascript
-const { AICF } = require('aicf-core');
-const fs = require('fs');
+```typescript
+import { AICF } from 'aicf-core';
+import fs from 'fs';
 
 async function convertTextToAICF(textFile, aicfDir) {
   console.log('Converting plain text to AICF...');
@@ -442,8 +442,8 @@ convertTextToAICF('conversations.txt', '.aicf')
 
 For gradual migration, use compatibility mode:
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 
 const aicf = AICF.create('.aicf', {
   compatibility: 'v2',  // Read v2 format

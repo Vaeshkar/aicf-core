@@ -1,0 +1,7 @@
+# Patch suggestion for client/src/App.css
+# Review and merge manually.
+
+.App {
+  text-align: center;
+  padding: 20px;
+}

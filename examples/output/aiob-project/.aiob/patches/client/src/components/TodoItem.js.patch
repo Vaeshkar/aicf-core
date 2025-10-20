@@ -1,0 +1,16 @@
+# Patch suggestion for client/src/components/TodoItem.js
+# Review and merge manually.
+
+import React from 'react';
+
+function TodoItem({ todo }) {
+  return (
+    <div className="todo-item">
+      <input type="checkbox" className="w-5 h-5" />
+      <span className="flex-1">{todo?.text}</span>
+      <button className="text-red-500">Delete</button>
+    </div>
+  );
+}
+
+export default TodoItem;

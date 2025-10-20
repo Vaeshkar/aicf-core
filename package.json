@@ -1,48 +1,57 @@
 {
   "name": "aicf-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Universal AI Context Format (AICF) - Enterprise-grade AI memory infrastructure with 95.5% compression and zero semantic loss",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs",
-      "types": "./types/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./api": {
-      "require": "./lib/aicf-api.js",
-      "import": "./lib/aicf-api.mjs"
+      "types": "./dist/aicf-api.d.ts",
+      "import": "./dist/aicf-api.js"
     },
     "./reader": {
-      "require": "./lib/aicf-reader.js",
-      "import": "./lib/aicf-reader.mjs"
+      "types": "./dist/aicf-reader.d.ts",
+      "import": "./dist/aicf-reader.js"
     },
     "./writer": {
-      "require": "./lib/aicf-writer.js",
-      "import": "./lib/aicf-writer.mjs"
+      "types": "./dist/aicf-writer.d.ts",
+      "import": "./dist/aicf-writer.js"
+    },
+    "./secure": {
+      "types": "./dist/aicf-secure.d.ts",
+      "import": "./dist/aicf-secure.js"
     },
     "./agents": {
-      "require": "./lib/agents/index.js",
-      "import": "./lib/agents/index.mjs"
+      "types": "./dist/agents/index.d.ts",
+      "import": "./dist/agents/index.js"
     }
   },
-  "types": "types/index.d.ts",
   "scripts": {
-    "build": "node scripts/build.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration",
-    "test:efficiency": "node tests/efficiency-test.js",
-    "test:compression": "node tests/compression-test.js",
-    "test:roundtrip": "jest tests/roundtrip",
-    "test:performance": "jest tests/performance",
-    "lint": "eslint src/ --ext .js",
-    "format": "prettier --write src/**/*.js",
-    "docs": "jsdoc src/ -d docs/api",
-    "benchmark": "node tests/benchmark.js",
-    "validate": "node scripts/validate-aicf.js"
+    "build": "tsc && npm run build:fix-extensions",
+    "build:test": "tsc -p tsconfig.test.json && npm run build:fix-extensions",
+    "build:fix-extensions": "node scripts/fix-extensions.js",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "pretest": "npm run build:test",
+    "test": "node --test dist/tests/**/*.test.js",
+    "test:watch": "node --test --watch dist/**/*.test.js",
+    "test:coverage": "c8 node --test dist/**/*.test.js",
+    "test:unit": "node --test dist/tests/unit/**/*.test.js",
+    "test:integration": "node --test dist/tests/integration/**/*.test.js",
+    "test:security": "node --test dist/tests/security/**/*.test.js",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "docs": "typedoc src/index.ts",
+    "validate": "npm run typecheck && npm run lint && npm run format:check"
   },
   "keywords": [
     "aicf",
@@ -73,28 +82,24 @@
   },
   "homepage": "https://github.com/Vaeshkar/aicf-core#readme",
   "engines": {
-    "node": ">=16.0.0"
-  },
-  "dependencies": {
-    "fs-extra": "^11.1.1"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "@types/node": "^20.0.0",
-    "chai": "^6.2.0",
-    "eslint": "^8.0.0",
-    "jest": "^29.7.0",
-    "jsdoc": "^4.0.0",
-    "mocha": "^11.7.4",
-    "prettier": "^3.0.0",
-    "typescript": "^5.0.0"
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "c8": "^9.0.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "typedoc": "^0.25.4",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "better-sqlite3": "^12.0.0"
   },
   "files": [
-    "lib/",
-    "types/",
+    "dist/",
     "docs/",
     "examples/",
     "README.md",

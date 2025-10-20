@@ -1,0 +1,12 @@
+# Patch suggestion for src/server.js
+# Review and merge manually.
+
+@@ After middleware setup
++ // Routes
++ const userRoutes = require('./routes/user.routes');
++ const todoRoutes = require('./routes/todo.routes');
++ const projectRoutes = require('./routes/project.routes');
++ 
++ app.use('/api/users', userRoutes);
++ app.use('/api/todos', todoRoutes);
++ app.use('/api/projects', projectRoutes);

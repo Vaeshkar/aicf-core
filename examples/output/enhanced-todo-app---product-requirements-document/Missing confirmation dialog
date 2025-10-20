@@ -1,0 +1,10 @@
+const handleDelete = (id) => {
+  // Should show confirmation dialog first
+  onDelete(id);
+};
+
+// Missing loading states
+const handleToggle = (id) => {
+  // Should show loading spinner
+  onUpdate(id, { completed: !todo.completed });
+};

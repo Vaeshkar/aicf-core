@@ -1,0 +1,14 @@
+# Patch suggestion for src/components/TodoList.js
+# Review and merge manually.
+
+import React from 'react';
+
+function TodoList() {
+  return (
+    <div>
+      {/* TodoItem components will go here */}
+    </div>
+  );
+}
+
+export default TodoList;

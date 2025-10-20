@@ -1,0 +1,10 @@
+const { body, param } = require('express-validator');
+
+const validateTodo = [
+  body('text').notEmpty().withMessage('Todo text is required'),
+  body('priority').isIn(['low', 'medium', 'high']).withMessage('Invalid priority value'),
+];
+
+const validateTodoId = [param('id').isInt().withMessage('Invalid todo ID')];
+
+module.exports = { validateTodo, validateTodoId };

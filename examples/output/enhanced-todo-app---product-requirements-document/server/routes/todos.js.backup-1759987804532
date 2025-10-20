@@ -1,0 +1,52 @@
+const express = require('express');
+const { validateTodo, validateTodoId } = require('../middleware/validator');
+const { getTodos, addTodo, updateTodo, deleteTodo } = require('../models/todo');
+const { createApiResponse } = require('../utils/helpers');
+
+const router = express.Router();
+
+router.get('/', async (req, res) => {
+  try {
+    const todos = await getTodos();
+    res.json(createApiResponse(true, todos));
+  } catch (error) {
+    res.status(500).json(createApiResponse(false, null, error.message));
+  }
+});
+
+router.post('/', validateTodo, async (req, res) => {
+  try {
+    const todo = await addTodo(req.body);
+    res.status(201).json(createApiResponse(true, todo));
+  } catch (error) {
+    res.status(400).json(createApiResponse(false, null, error.message));
+  }
+});
+
+router.patch('/:id', validateTodoId, async (req, res) => {
+  try {
+    const todo = await updateTodo(req.params.id, req.body);
+    if (todo) {
+      res.json(createApiResponse(true, todo));
+    } else {
+      res.status(404).json(createApiResponse(false, null, 'Todo not found'));
+    }
+  } catch (error) {
+    res.status(400).json(createApiResponse(false, null, error.message));
+  }
+});
+
+router.delete('/:id', validateTodoId, async (req, res) => {
+  try {
+    const success = await deleteTodo(req.params.id);
+    if (success) {
+      res.json(createApiResponse(true, null, 'Todo deleted'));
+    } else {
+      res.status(404).json(createApiResponse(false, null, 'Todo not found'));
+    }
+  } catch (error) {
+    res.status(500).json(createApiResponse(false, null, error.message));
+  }
+});
+
+module.exports = router;

@@ -1,0 +1,46 @@
+import React, { useState } from 'react';
+
+function TodoItem({ todo, onUpdate, onDelete }) {
+  const [editing, setEditing] = useState(false);
+  const [text, setText] = useState(todo.text);
+
+  const handleUpdate = () => {
+    onUpdate(todo.id, { text });
+    setEditing(false);
+  };
+
+  return (
+    <div className="todo-item">
+      {editing? (
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onBlur={handleUpdate}
+          onKeyDown={(e) => e.key === 'Enter' && handleUpdate()}
+          autoFocus
+        />
+      ) : (
+        <span
+          className={`todo-text ${todo.completed && 'line-through text-gray-400'}`}
+          onDoubleClick={() => setEditing(true)}
+        >
+          {text}
+        </span>
+      )}
+      <div className="todo-actions">
+        <button
+          className="action-btn"
+          onClick={() => onUpdate(todo.id, { completed:!todo.completed })}
+        >
+          {todo.completed? '✓' : '○'}
+        </button>
+        <button className="action-btn" onClick={() => onDelete(todo.id)}>
+          🗑
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default TodoItem;

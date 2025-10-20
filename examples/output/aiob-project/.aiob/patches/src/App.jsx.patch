@@ -1,0 +1,24 @@
+# Patch suggestion for src/App.jsx
+# Review and merge manually.
+
+import React from 'react';
+
+class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Todo App</h1>
+        <input type="text" placeholder="Add a new todo" />
+        <ul>
+          <li>
+            <input type="checkbox" />
+            <span>Todo item</span>
+            <button>Delete</button>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+}
+
+export default App;

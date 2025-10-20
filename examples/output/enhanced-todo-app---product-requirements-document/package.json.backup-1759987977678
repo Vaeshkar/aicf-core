@@ -1,0 +1,24 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.19.0",
+    "helmet": "^4.6.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.1",
+    "axios": "^0.27.2",
+    "nodemon": "^2.0.15",
+    "concurrently": "^7.3.0",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-react": "^7.18.10"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  }
+}

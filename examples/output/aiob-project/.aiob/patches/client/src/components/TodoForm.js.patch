@@ -1,0 +1,27 @@
+# Patch suggestion for client/src/components/TodoForm.js
+# Review and merge manually.
+
+import React, { useState } from 'react';
+
+function TodoForm() {
+  const [text, setText] = useState('');
+  
+  return (
+    <form className="mb-8">
+      <div className="flex gap-4">
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="What needs to be done?"
+          className="flex-1 p-3 border rounded-lg"
+        />
+        <button type="submit" className="btn btn-primary">
+          Add Todo
+        </button>
+      </div>
+    </form>
+  );
+}
+
+export default TodoForm;

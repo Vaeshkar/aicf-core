@@ -1,0 +1,35 @@
+{
+  "name": "taskmaster-pro",
+  "version": "1.0.0",
+  "description": "Modern todo application with full CRUD capabilities",
+  "main": "server.js",
+  "scripts": {
+    "build": "turbo run build",
+    "client": "npm run dev --workspace @premium-todo/frontend",
+    "dev": "nodemon server.js",
+    "dev:all": "concurrently \"npm run dev\" \"npm run client\"",
+    "dev:full": "concurrently \"npm run dev\" \"npm run client\"",
+    "lint": "turbo run lint",
+    "start": "node server.js",
+    "test": "turbo run test"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.1",
+    "eslint": "^8.54.0",
+    "nodemon": "^2.0.22",
+    "prettier": "^3.1.0",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.2"
+  },
+  "peerDependencies": {},
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}

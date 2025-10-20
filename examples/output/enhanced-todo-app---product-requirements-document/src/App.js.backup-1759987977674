@@ -1,0 +1,75 @@
+import React, { useState, useEffect } from 'react';
+import TodoForm from './components/TodoForm';
+import TodoList from './components/TodoList';
+
+function App() {
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  const fetchTodos = async () => {
+    try {
+      const response = await fetch('/api/todos');
+      const data = await response.json();
+      setTodos(data);
+    } catch (error) {
+      console.error('Error fetching todos:', error);
+    }
+  };
+
+  const addTodo = async (newTodo) => {
+    try {
+      const response = await fetch('/api/todos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newTodo),
+      });
+      const savedTodo = await response.json();
+      setTodos([...todos, savedTodo]);
+    } catch (error) {
+      console.error('Error adding todo:', error);
+    }
+  };
+
+  const updateTodo = async (id, updates) => {
+    try {
+      await fetch(`/api/todos/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updates),
+      });
+      const updatedTodos = todos.map((todo) =>
+        todo.id === id? {...todo,...updates } : todo
+      );
+      setTodos(updatedTodos);
+    } catch (error) {
+      console.error('Error updating todo:', error);
+    }
+  };
+
+  const deleteTodo = async (id) => {
+    try {
+      await fetch(`/api/todos/${id}`, { method: 'DELETE' });
+      const remainingTodos = todos.filter((todo) => todo.id!== id);
+      setTodos(remainingTodos);
+    } catch (error) {
+      console.error('Error deleting todo:', error);
+    }
+  };
+
+  return (
+    <div className="max-w-md mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4">TaskMaster Pro</h1>
+      <TodoForm onAdd={addTodo} />
+      <TodoList todos={todos} onUpdate={updateTodo} onDelete={deleteTodo} />
+    </div>
+  );
+}
+
+export default App;

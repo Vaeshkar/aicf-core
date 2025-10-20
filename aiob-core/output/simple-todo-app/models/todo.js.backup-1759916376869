@@ -1,7 +1,0 @@
-const todoSchema = {
-  id: { type: 'number', required: true },
-  text: { type: 'string', required: true },
-  completed: { type: 'boolean', required: true }
-};
-
-module.exports = todoSchema;

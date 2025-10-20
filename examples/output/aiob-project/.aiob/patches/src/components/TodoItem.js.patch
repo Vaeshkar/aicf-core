@@ -1,0 +1,14 @@
+# Patch suggestion for src/components/TodoItem.js
+# Review and merge manually.
+
+import React from 'react';
+
+function TodoItem() {
+  return (
+    <div>
+      {/* Todo item details will go here */}
+    </div>
+  );
+}
+
+export default TodoItem;

@@ -1,0 +1,44 @@
+const fs = require('fs');
+const path = require('path');
+const { createApiResponse } = require('../utils/helpers');
+
+const todosPath = path.join(__dirname, '../data/todos.json');
+
+const getTodos = () => {
+  const data = fs.existsSync(todosPath) ? fs.readFileSync(todosPath, 'utf-8') : '[]';
+  return JSON.parse(data);
+};
+
+const addTodo = (todo) => {
+  const todos = getTodos();
+  const newTodo = {
+    id: todos.length + 1,
+    text: todo.text,
+    completed: false,
+    priority: todo.priority,
+    created_at: new Date().toISOString(),
+  };
+  todos.push(newTodo);
+  fs.writeFileSync(todosPath, JSON.stringify(todos, null, 2));
+  return newTodo;
+};
+
+const updateTodo = (id, updates) => {
+  const todos = getTodos();
+  const index = todos.findIndex((todo) => todo.id === parseInt(id));
+  if (index === -1) return null;
+  todos[index] = { ...todos[index], ...updates };
+  fs.writeFileSync(todosPath, JSON.stringify(todos, null, 2));
+  return todos[index];
+};
+
+const deleteTodo = (id) => {
+  const todos = getTodos();
+  const index = todos.findIndex((todo) => todo.id === parseInt(id));
+  if (index === -1) return false;
+  todos.splice(index, 1);
+  fs.writeFileSync(todosPath, JSON.stringify(todos, null, 2));
+  return true;
+};
+
+module.exports = { getTodos, addTodo, updateTodo, deleteTodo };

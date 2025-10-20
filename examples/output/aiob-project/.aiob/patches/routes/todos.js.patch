@@ -1,0 +1,50 @@
+# Patch suggestion for routes/todos.js
+# Review and merge manually.
+
+const express = require('express');
+const { body, validationResult } = require('express-validator');
+const fs = require('fs');
+const router = express.Router();
+
+// Data file path
+const DATA_FILE = '../data/todos.json';
+
+// Routes
+router.get('/', (req, res) => {
+  const todos = JSON.parse(fs.readFileSync(DATA_FILE));
+  res.json(todos);
+});
+
+router.post('/',
+  body('text').notEmpty().withMessage('Todo text is required'),
+  body('priority').isIn(['low', 'medium', 'high']).withMessage('Invalid priority'),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const newTodo = {
+      id: Date.now(),
+      text: req.body.text,
+      completed: false,
+      priority: req.body.priority,
+      created_at: new Date().toISOString()
+    };
+
+    const todos = JSON.parse(fs.readFileSync(DATA_FILE));
+    todos.unshift(newTodo);
+    fs.writeFileSync(DATA_FILE, JSON.stringify(todos));
+
+    res.status(201).json(newTodo);
+});
+
+router.patch('/:id', (req, res) => {
+  // To be implemented
+});
+
+router.delete('/:id', (req, res) => {
+  // To be implemented
+});
+
+module.exports = router;

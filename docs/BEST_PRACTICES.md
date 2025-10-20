@@ -73,7 +73,7 @@ project/
 
 **Recommended Retention Schedule:**
 
-```javascript
+```typescript
 // Daily: Process memory lifecycle
 const dailyJob = cron.schedule('0 0 * * *', async () => {
   const manager = new MemoryLifecycleManager();
@@ -119,7 +119,7 @@ const quarterlyJob = cron.schedule('0 4 1 1,4,7,10 *', async () => {
 
 ### Memory Optimization
 
-```javascript
+```typescript
 class AICFMemoryOptimizer {
   constructor(aicfDir) {
     this.aicf = AICF.create(aicfDir);
@@ -162,7 +162,7 @@ class AICFMemoryOptimizer {
 
 **✅ Efficient Queries:**
 
-```javascript
+```typescript
 // Use date range filters
 const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const recent = reader.getConversationsByDate(lastWeek);
@@ -176,7 +176,7 @@ const last10 = reader.getLastConversations(10);
 
 **❌ Inefficient Queries:**
 
-```javascript
+```typescript
 // Don't load all data then filter
 const all = reader.getAllConversations(); // Slow!
 const filtered = all.filter(c => c.metadata.topic === 'auth');
@@ -187,7 +187,7 @@ const unlimited = reader.getConversationsByDate(new Date(0)); // Slow!
 
 ### Caching Strategy
 
-```javascript
+```typescript
 class AICFCache {
   constructor(aicf, ttl = 60000) { // 1 minute TTL
     this.aicf = aicf;
@@ -224,7 +224,7 @@ class AICFCache {
 
 ### Batch Operations
 
-```javascript
+```typescript
 // ✅ Batch writes
 async function batchLogConversations(conversations) {
   const writer = new AICFWriter('.aicf');
@@ -249,7 +249,7 @@ async function inefficientWrites(conversations) {
 
 ### Connection Pooling
 
-```javascript
+```typescript
 class AICFPool {
   constructor(aicfDir, poolSize = 5) {
     this.readers = Array(poolSize).fill(null)
@@ -276,7 +276,7 @@ const stats = reader.getStats();
 
 ### PII Detection and Redaction
 
-```javascript
+```typescript
 class PIIRedactor {
   constructor() {
     this.patterns = {
@@ -314,7 +314,7 @@ class PIIRedactor {
 
 ### Access Control
 
-```javascript
+```typescript
 class SecureAICFService {
   constructor(aicfDir, permissions) {
     this.aicf = AICF.create(aicfDir);
@@ -350,7 +350,7 @@ class SecureAICFService {
 
 ### Encryption at Rest
 
-```javascript
+```typescript
 const crypto = require('crypto');
 
 class EncryptedAICFWriter {
@@ -388,7 +388,7 @@ class EncryptedAICFWriter {
 
 ### Service Layer Pattern
 
-```javascript
+```typescript
 class AICFService {
   constructor(config) {
     this.aicf = AICF.create(config.aicfDir);
@@ -438,7 +438,7 @@ class AICFService {
 
 ### Health Check Endpoint
 
-```javascript
+```typescript
 app.get('/health/aicf', async (req, res) => {
   try {
     const health = aicfService.healthCheck();
@@ -459,7 +459,7 @@ app.get('/health/aicf', async (req, res) => {
 
 ### Graceful Shutdown
 
-```javascript
+```typescript
 class AICFApplication {
   constructor() {
     this.aicf = AICF.create('.aicf');
@@ -507,7 +507,7 @@ process.on('SIGTERM', async () => {
 
 ### Comprehensive Error Handling
 
-```javascript
+```typescript
 class RobustAICFService {
   async logConversation(data) {
     try {
@@ -541,7 +541,7 @@ class RobustAICFService {
 
 ### Metrics Collection
 
-```javascript
+```typescript
 class AICFMetrics {
   constructor() {
     this.metrics = {
@@ -570,7 +570,7 @@ class AICFMetrics {
 
 ### Logging Best Practices
 
-```javascript
+```typescript
 // ✅ Structured logging
 logger.info('Conversation logged', {
   conversationId: data.id,
@@ -589,7 +589,7 @@ console.log(`Logged conversation ${data.id}`);
 
 ### Horizontal Scaling
 
-```javascript
+```typescript
 // Use Redis for coordination
 const aicf = new AICF('.aicf', {
   coordination: 'redis',

@@ -26,7 +26,7 @@ The main AICF class provides a complete interface for AI Context Format operatio
 
 #### Constructor
 
-```javascript
+```typescript
 new AICF(aicfDir)
 ```
 
@@ -34,8 +34,8 @@ new AICF(aicfDir)
 - `aicfDir` (string): Path to the .aicf directory (default: '.aicf')
 
 **Example:**
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const aicf = new AICF('.aicf');
 ```
 
@@ -51,7 +51,7 @@ Factory method to create an AICF instance.
 **Returns:** `AICF` instance
 
 **Example:**
-```javascript
+```typescript
 const aicf = AICF.create('.aicf');
 ```
 
@@ -65,7 +65,7 @@ Create a read-only instance.
 **Returns:** `AICFReader` instance
 
 **Example:**
-```javascript
+```typescript
 const reader = AICF.createReader('.aicf');
 ```
 
@@ -79,7 +79,7 @@ Create a write-only instance.
 **Returns:** `AICFWriter` instance
 
 **Example:**
-```javascript
+```typescript
 const writer = AICF.createWriter('.aicf');
 ```
 
@@ -93,7 +93,7 @@ Load complete AICF context from directory.
 **Returns:** `Promise<Object>` - Complete AICF context
 
 **Example:**
-```javascript
+```typescript
 const context = await AICF.load('.aicf');
 ```
 
@@ -104,7 +104,7 @@ Get version information.
 **Returns:** `Object` with version details
 
 **Example:**
-```javascript
+```typescript
 const version = AICF.getVersion();
 // {
 //   version: '1.0.0',
@@ -130,7 +130,7 @@ Log a conversation to AICF.
 **Returns:** `Promise<void>`
 
 **Example:**
-```javascript
+```typescript
 await aicf.logConversation({
   id: 'conv_001',
   messages: 25,
@@ -156,7 +156,7 @@ Add a decision record.
 **Returns:** `Promise<void>`
 
 **Example:**
-```javascript
+```typescript
 await aicf.addDecision({
   description: 'Adopt microservices architecture',
   impact: 'HIGH',
@@ -179,7 +179,7 @@ Add an insight record.
 **Returns:** `Promise<void>`
 
 **Example:**
-```javascript
+```typescript
 await aicf.addInsight({
   description: 'Database queries are slow under load',
   category: 'PERFORMANCE',
@@ -201,7 +201,7 @@ Query AICF data with natural language.
 - `query` (string): Original query
 
 **Example:**
-```javascript
+```typescript
 const results = aicf.query('show me high-impact decisions');
 console.log(results.relevanceScore); // 0.85
 console.log(results.results.length); // 5
@@ -217,7 +217,7 @@ Get comprehensive project overview.
 - `summary` (string): Project summary
 
 **Example:**
-```javascript
+```typescript
 const overview = aicf.getProjectOverview();
 console.log(overview.summary);
 ```
@@ -232,7 +232,7 @@ Generate comprehensive analytics.
 - `recommendations` (Array): Recommendations
 
 **Example:**
-```javascript
+```typescript
 const analytics = aicf.generateAnalytics();
 console.log(analytics.overview.totalConversations);
 console.log(analytics.insights.highPriority);
@@ -248,7 +248,7 @@ Check system health.
 - `timestamp` (string): Check timestamp
 
 **Example:**
-```javascript
+```typescript
 const health = aicf.healthCheck();
 if (health.status === 'healthy') {
   console.log('✅ System is healthy');
@@ -264,7 +264,7 @@ Export AICF data to JSON format.
 **Returns:** `Object` - Complete AICF data in JSON
 
 **Example:**
-```javascript
+```typescript
 const json = aicf.exportToJSON();
 console.log(JSON.stringify(json, null, 2));
 ```
@@ -276,7 +276,7 @@ Export AICF data to Markdown format.
 **Returns:** `string` - AICF data in Markdown
 
 **Example:**
-```javascript
+```typescript
 const markdown = aicf.exportToMarkdown();
 console.log(markdown);
 ```
@@ -289,7 +289,7 @@ Read-only operations for AICF data. Optimized for concurrent access and high per
 
 #### Constructor
 
-```javascript
+```typescript
 new AICFReader(aicfDir)
 ```
 
@@ -297,8 +297,8 @@ new AICFReader(aicfDir)
 - `aicfDir` (string): Path to the .aicf directory
 
 **Example:**
-```javascript
-const { AICFReader } = require('aicf-core');
+```typescript
+import { AICFReader } from 'aicf-core';
 const reader = new AICFReader('.aicf');
 ```
 
@@ -313,7 +313,7 @@ Get project statistics.
 - `project` (Object): Project metadata
 
 **Example:**
-```javascript
+```typescript
 const stats = reader.getStats();
 console.log('Total conversations:', stats.counts.conversations);
 ```
@@ -328,7 +328,7 @@ Get the last N conversations.
 **Returns:** `Array<Object>` - Array of conversation objects
 
 **Example:**
-```javascript
+```typescript
 const recent = reader.getLastConversations(10);
 recent.forEach(conv => {
   console.log(conv.id, conv.messages, conv.tokens);
@@ -346,7 +346,7 @@ Get conversations within a date range.
 **Returns:** `Array<Object>` - Array of conversation objects
 
 **Example:**
-```javascript
+```typescript
 const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
 const conversations = reader.getConversationsByDate(lastWeek);
 ```
@@ -362,7 +362,7 @@ Get decisions within a date range.
 **Returns:** `Array<Object>` - Array of decision objects
 
 **Example:**
-```javascript
+```typescript
 const recentDecisions = reader.getDecisionsByDate(lastWeek);
 ```
 
@@ -376,7 +376,7 @@ Get decisions by impact level.
 **Returns:** `Array<Object>` - Array of decision objects
 
 **Example:**
-```javascript
+```typescript
 const highImpact = reader.getDecisionsByImpact('HIGH');
 ```
 
@@ -390,7 +390,7 @@ Get insights by priority level.
 **Returns:** `Array<Object>` - Array of insight objects
 
 **Example:**
-```javascript
+```typescript
 const critical = reader.getInsightsByPriority('CRITICAL');
 ```
 
@@ -404,7 +404,7 @@ Get insights by category.
 **Returns:** `Array<Object>` - Array of insight objects
 
 **Example:**
-```javascript
+```typescript
 const performance = reader.getInsightsByCategory('PERFORMANCE');
 ```
 
@@ -415,7 +415,7 @@ Get current work state.
 **Returns:** `Object` - Current work state
 
 **Example:**
-```javascript
+```typescript
 const workState = reader.getCurrentWorkState();
 console.log(workState.status);
 ```
@@ -428,7 +428,7 @@ Write-only operations for AICF data. Thread-safe with atomic writes.
 
 #### Constructor
 
-```javascript
+```typescript
 new AICFWriter(aicfDir)
 ```
 
@@ -436,8 +436,8 @@ new AICFWriter(aicfDir)
 - `aicfDir` (string): Path to the .aicf directory
 
 **Example:**
-```javascript
-const { AICFWriter } = require('aicf-core');
+```typescript
+import { AICFWriter } from 'aicf-core';
 const writer = new AICFWriter('.aicf');
 ```
 
@@ -465,7 +465,7 @@ Update work state.
 **Returns:** `Promise<void>`
 
 **Example:**
-```javascript
+```typescript
 await writer.updateWorkState({
   status: 'in_progress',
   currentTask: 'Implementing authentication',
@@ -483,7 +483,7 @@ AI-powered conversation analysis with context understanding.
 
 #### Constructor
 
-```javascript
+```typescript
 new IntelligentConversationParser()
 ```
 
@@ -499,8 +499,8 @@ Analyze conversation with AI intelligence.
 **Returns:** `Promise<Object>` - Analysis results
 
 **Example:**
-```javascript
-const { IntelligentConversationParser } = require('aicf-core');
+```typescript
+import { IntelligentConversationParser } from 'aicf-core';
 const parser = new IntelligentConversationParser();
 const analysis = await parser.analyzeConversation(conversationData);
 ```
@@ -513,7 +513,7 @@ Extract insights, decisions, and semantic relationships.
 
 #### Constructor
 
-```javascript
+```typescript
 new ConversationAnalyzer()
 ```
 
@@ -529,8 +529,8 @@ Extract insights from conversation analysis.
 **Returns:** `Promise<Array>` - Array of insights
 
 **Example:**
-```javascript
-const { ConversationAnalyzer } = require('aicf-core');
+```typescript
+import { ConversationAnalyzer } from 'aicf-core';
 const analyzer = new ConversationAnalyzer();
 const insights = await analyzer.extractInsights(analysis);
 ```
@@ -543,7 +543,7 @@ Automatic memory management with configurable retention policies.
 
 #### Constructor
 
-```javascript
+```typescript
 new MemoryLifecycleManager()
 ```
 
@@ -556,8 +556,8 @@ Process memory lifecycle.
 **Returns:** `Promise<Object>` - Processing results
 
 **Example:**
-```javascript
-const { MemoryLifecycleManager } = require('aicf-core');
+```typescript
+import { MemoryLifecycleManager } from 'aicf-core';
 const manager = new MemoryLifecycleManager();
 await manager.processMemoryCycle();
 ```
@@ -570,7 +570,7 @@ Memory dropoff with 7/30/90 day cycles.
 
 #### Constructor
 
-```javascript
+```typescript
 new MemoryDropoff()
 ```
 
@@ -588,8 +588,8 @@ Execute memory dropoff for specified cycle.
 - `itemsArchived` (number): Number of items archived
 
 **Example:**
-```javascript
-const { MemoryDropoff } = require('aicf-core');
+```typescript
+import { MemoryDropoff } from 'aicf-core';
 const dropoff = new MemoryDropoff();
 const result = await dropoff.executeDropoff('30-day');
 console.log(`Archived ${result.itemsArchived} items`);

@@ -1,0 +1,24 @@
+import React from 'react';
+import TodoItem from './TodoItem';
+
+const TodoList = ({ todos, onToggleTodo, onDeleteTodo, onEditTodo }) => {
+  return (
+    <div className="w-full max-h-96 overflow-y-auto">
+      {todos.length > 0 ? (
+        todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            onToggleTodo={onToggleTodo}
+            onDeleteTodo={onDeleteTodo}
+            onEditTodo={onEditTodo}
+          />
+        ))
+      ) : (
+        <p className="text-center text-gray-500 dark:text-gray-400">No todos yet. Add one above!</p>
+      )}
+    </div>
+  );
+};
+
+export default TodoList;

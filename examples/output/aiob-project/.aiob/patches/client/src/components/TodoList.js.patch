@@ -1,0 +1,15 @@
+# Patch suggestion for client/src/components/TodoList.js
+# Review and merge manually.
+
+import React from 'react';
+import TodoItem from './TodoItem';
+
+function TodoList() {
+  return (
+    <div className="space-y-4">
+      {/* Todo items will be rendered here */}
+    </div>
+  );
+}
+
+export default TodoList;

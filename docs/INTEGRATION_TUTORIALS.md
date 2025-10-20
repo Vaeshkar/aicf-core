@@ -27,11 +27,11 @@ npm install aicf-core langchain
 
 ### Basic Integration
 
-```javascript
-const { AICF } = require('aicf-core');
-const { BufferMemory } = require('langchain/memory');
-const { ChatOpenAI } = require('langchain/chat_models/openai');
-const { ConversationChain } = require('langchain/chains');
+```typescript
+import { AICF } from 'aicf-core';
+import { BufferMemory } from 'langchain/memory';
+import { ChatOpenAI } from 'langchain/chat_models/openai';
+import { ConversationChain } from 'langchain/chains';
 
 // Create AICF-backed memory
 class AICFMemory extends BufferMemory {
@@ -112,7 +112,7 @@ main().catch(console.error);
 
 ### Advanced: Context Injection
 
-```javascript
+```typescript
 class EnhancedAICFMemory extends AICFMemory {
   async loadMemoryVariables() {
     const variables = await super.loadMemoryVariables();
@@ -151,8 +151,8 @@ npm install aicf-core openai
 
 ### Basic Integration
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const OpenAI = require('openai');
 
 class OpenAIWithAICF {
@@ -248,8 +248,8 @@ npm install aicf-core @anthropic-ai/sdk
 
 ### Basic Integration
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const Anthropic = require('@anthropic-ai/sdk');
 
 class ClaudeWithAICF {
@@ -325,9 +325,9 @@ npm install aicf-core @pinecone-database/pinecone
 
 ### Integration with Pinecone
 
-```javascript
-const { AICF } = require('aicf-core');
-const { Pinecone } = require('@pinecone-database/pinecone');
+```typescript
+import { AICF } from 'aicf-core';
+import { Pinecone } from '@pinecone-database/pinecone';
 
 class AICFWithVectorDB {
   constructor(pineconeApiKey, aicfDir = '.aicf') {
@@ -385,11 +385,11 @@ class AICFWithVectorDB {
 
 ### AWS S3 Integration
 
-```javascript
-const { AICF } = require('aicf-core');
+```typescript
+import { AICF } from 'aicf-core';
 const AWS = require('aws-sdk');
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 class AICFWithS3 {
   constructor(aicfDir, s3Config) {
@@ -456,9 +456,9 @@ setInterval(() => {
 
 ### REST API for AICF
 
-```javascript
+```typescript
 const express = require('express');
-const { AICF } = require('aicf-core');
+import { AICF } from 'aicf-core';
 
 const app = express();
 app.use(express.json());
