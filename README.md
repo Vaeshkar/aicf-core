@@ -4,13 +4,6 @@
 ![License](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
 ![Node](https://img.shields.io/badge/Node-%3E%3D20.0.0-brightgreen)
-![Security Score](https://img.shields.io/badge/Security_Score-10/10-success)
-![Build](https://img.shields.io/badge/Build-Passing-success)
-![Tests](https://img.shields.io/badge/Tests-28/28-success)
-![Compression](https://img.shields.io/badge/Compression-95.5%25-success)
-![Semantic Loss](https://img.shields.io/badge/Semantic%20Loss-0%25-success)
-![Google ADK Compatible](https://img.shields.io/badge/Google_ADK-Compatible-4285F4)
-![OWASP LLM 2025](https://img.shields.io/badge/OWASP_LLM_2025-100%25-success)
 
 **The git-native alternative to AI context management apps. Works with ALL AI platforms. Own your data. Zero cost. No vendor lock-in.**
 

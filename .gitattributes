@@ -1,0 +1,42 @@
+# GitHub Language Detection Configuration
+
+# Exclude compiled JavaScript from language statistics
+dist/** linguist-generated=true
+
+# Mark TypeScript as the primary language
+*.ts linguist-detectable=true
+
+# Mark compiled JavaScript as generated
+*.js linguist-generated=true
+
+# Exclude documentation from language statistics
+docs/** linguist-documentation=true
+
+# Exclude examples from language statistics (optional)
+examples/** linguist-documentation=true
+
+# Line ending normalization
+* text=auto
+
+# TypeScript files
+*.ts text eol=lf
+*.tsx text eol=lf
+
+# JavaScript files
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+
+# JSON files
+*.json text eol=lf
+
+# Markdown files
+*.md text eol=lf
+
+# YAML files
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
