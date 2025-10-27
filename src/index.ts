@@ -26,6 +26,18 @@ export {
   type SecurityEvent,
 } from "./aicf-secure.js";
 
+// Memory Writer (new in v2.1.0)
+export {
+  MemoryFileWriter,
+  type UserIntent,
+  type AIAction,
+  type TechnicalWork,
+  type Decision,
+  type ConversationFlow,
+  type WorkingState,
+  type AnalysisResult,
+} from "./writers/MemoryFileWriter.js";
+
 // Types
 export type {
   Result,
@@ -142,6 +154,17 @@ export class AICF extends AICFAPI {
   }
 
   /**
+   * Create memory writer instance for analysis results
+   * @since 2.1.0
+   */
+  static createMemoryWriter(
+    cwd?: string
+  ): import("./writers/MemoryFileWriter.js").MemoryFileWriter {
+    const { MemoryFileWriter } = require("./writers/MemoryFileWriter.js");
+    return new MemoryFileWriter(cwd);
+  }
+
+  /**
    * Get version information
    */
   static getVersion(): {
@@ -151,7 +174,7 @@ export class AICF extends AICFAPI {
     semanticLoss: string;
   } {
     return {
-      version: "2.0.0",
+      version: "2.1.0",
       aicfFormat: "3.1.1",
       compressionRatio: "95.5%",
       semanticLoss: "0%",
@@ -167,4 +190,5 @@ export const create = AICF.create;
 export const createReader = AICF.createReader;
 export const createWriter = AICF.createWriter;
 export const createSecure = AICF.createSecure;
+export const createMemoryWriter = AICF.createMemoryWriter;
 export const getVersion = AICF.getVersion;

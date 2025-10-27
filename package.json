@@ -1,6 +1,6 @@
 {
   "name": "aicf-core",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Universal AI Context Format (AICF) - Enterprise-grade AI memory infrastructure with 95.5% compression and zero semantic loss",
   "type": "module",
   "main": "./dist/index.js",

@@ -5,6 +5,42 @@ All notable changes to the AICF Core project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-10-26
+
+### ✨ Added
+
+#### Memory File Writer
+
+- **MemoryFileWriter class** - New writer for AI conversation analysis results
+  - Pipe-delimited AICF format with proper escaping
+  - Escapes newlines (`\n` → `\\n`) and pipes (`|` → `\\|`)
+  - Supports user intents, AI actions, technical work, decisions, flow, and working state
+  - Automatic file organization by date in `.aicf/recent/` folder
+  - Both async (`writeAICF`) and sync (`writeAICFSync`) methods
+  - Static `unescapeAICF()` method for reading escaped content
+
+#### New Exports
+
+- `MemoryFileWriter` - Main writer class
+- `UserIntent` - Type for user intent extraction
+- `AIAction` - Type for AI action tracking
+- `TechnicalWork` - Type for technical work tracking
+- `Decision` - Type for decision tracking
+- `ConversationFlow` - Type for conversation flow analysis
+- `WorkingState` - Type for working state tracking
+- `AnalysisResult` - Complete analysis result type
+
+#### Factory Methods
+
+- `AICF.createMemoryWriter(cwd?)` - Create memory writer instance
+- `createMemoryWriter(cwd?)` - Convenience factory function
+
+### 📝 Documentation
+
+- Added comprehensive JSDoc comments for all new types and methods
+- Documented escaping behavior for special characters
+- Added usage examples in type definitions
+
 ## [2.0.0] - 2025-10-20
 
 ### 🚀 Major Release - Complete TypeScript Migration & Enterprise Security
