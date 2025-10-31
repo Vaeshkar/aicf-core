@@ -9,6 +9,7 @@
 
 import { join } from "node:path";
 import { randomUUID } from "node:crypto";
+import { existsSync, mkdirSync } from "node:fs";
 import type { Result } from "./types/result.js";
 import { ok, err, toError } from "./types/result.js";
 import type { FileSystem, Logger } from "./types/aicf.js";
@@ -74,17 +75,15 @@ export class AICFWriter {
   }
 
   /**
-   * Ensure directory exists
+   * Ensure directory exists (synchronous for constructor)
    */
-  private async ensureDirectory(): Promise<void> {
-    const existsResult = await this.fs.exists(this.aicfDir);
-    if (!existsResult.ok || !existsResult.value) {
-      const mkdirResult = await this.fs.mkdir(this.aicfDir, {
-        recursive: true,
-      });
-      if (!mkdirResult.ok) {
-        this.logger.error("Failed to create directory", mkdirResult.error);
+  private ensureDirectory(): void {
+    try {
+      if (!existsSync(this.aicfDir)) {
+        mkdirSync(this.aicfDir, { recursive: true });
       }
+    } catch (error) {
+      this.logger.error("Failed to create directory", toError(error));
     }
   }
 
