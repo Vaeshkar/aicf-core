@@ -213,7 +213,7 @@ export class AICFReader {
 
       const lines = contentResult.value.split("\n").filter(Boolean);
       const conversations: AICFConversation[] = [];
-      let currentConv: Partial<AICFConversation> | null = null;
+      let currentConv: Partial<AICFConversation> = {};
 
       for (
         let i = lines.length - 1;
@@ -222,25 +222,35 @@ export class AICFReader {
       ) {
         const line = lines[i];
         if (!line) continue;
-        const parts = line.split("|", 2);
-        if (parts.length < 2) continue;
 
-        const data = parts[1];
+        // Check if line has a pipe (numbered line) or not (continuation line)
+        const pipeIndex = line.indexOf("|");
+        let data: string;
+
+        if (pipeIndex > 0) {
+          // Line has format: number|data
+          data = line.substring(pipeIndex + 1);
+        } else {
+          // Line has no pipe, it's a continuation line (e.g., "id=value")
+          data = line;
+        }
+
         if (!data) continue;
 
         if (data.startsWith("@CONVERSATION:")) {
-          if (currentConv && this.isValidConversation(currentConv)) {
+          // When reading backwards, we've been building currentConv from the data lines
+          // Now we've hit the tag, so push it and start a new one
+          if (this.isValidConversation(currentConv)) {
             conversations.push(currentConv as AICFConversation);
           }
           currentConv = {};
-        } else if (currentConv) {
+        } else {
+          // Parse data line into currentConv
           this.parseConversationLine(data, currentConv);
         }
       }
 
-      if (currentConv && this.isValidConversation(currentConv)) {
-        conversations.push(currentConv as AICFConversation);
-      }
+      // Don't push the final currentConv - it's incomplete (we never saw its @CONVERSATION tag)
 
       return ok(conversations);
     } catch (error) {
@@ -257,26 +267,37 @@ export class AICFReader {
   ): Promise<Result<AICFConversation[]>> {
     try {
       const conversations: AICFConversation[] = [];
-      let currentConv: Partial<AICFConversation> | null = null;
+      let currentConv: Partial<AICFConversation> = {};
 
       const streamResult = await readFileStream(
         conversationsPath,
         (line: string) => {
-          const parts = line.split("|", 2);
-          if (parts.length < 2) return;
+          // Check if line has a pipe (numbered line) or not (continuation line)
+          const pipeIndex = line.indexOf("|");
+          let data: string;
 
-          const data = parts[1];
+          if (pipeIndex > 0) {
+            // Line has format: number|data
+            data = line.substring(pipeIndex + 1);
+          } else {
+            // Line has no pipe, it's a continuation line (e.g., "id=value")
+            data = line;
+          }
+
           if (!data) return;
 
           if (data.startsWith("@CONVERSATION:")) {
-            if (currentConv && this.isValidConversation(currentConv)) {
+            // When reading forward, we've been building currentConv from previous data lines
+            // Now we've hit a new tag, so push the previous one and start a new one
+            if (this.isValidConversation(currentConv)) {
               conversations.unshift(currentConv as AICFConversation);
               if (conversations.length > count) {
                 conversations.pop();
               }
             }
             currentConv = {};
-          } else if (currentConv) {
+          } else {
+            // Parse data line into currentConv
             this.parseConversationLine(data, currentConv);
           }
         }
@@ -286,7 +307,8 @@ export class AICFReader {
         return err(streamResult.error);
       }
 
-      if (currentConv && this.isValidConversation(currentConv)) {
+      // Push the final conversation (the last one in the file)
+      if (this.isValidConversation(currentConv)) {
         conversations.unshift(currentConv as AICFConversation);
       }
 

@@ -141,6 +141,7 @@ export class AICFWriter {
 
   /**
    * Get next line number for file
+   * Searches backwards to find the last line with a line number (handles multi-line entries)
    */
   private async getNextLineNumber(filePath: string): Promise<Result<number>> {
     try {
@@ -162,22 +163,30 @@ export class AICFWriter {
         return ok(1);
       }
 
-      const lastLine = lines[lines.length - 1];
-      if (!lastLine) {
-        return ok(1);
+      // Search backwards for the last line that starts with a number followed by a pipe
+      for (let i = lines.length - 1; i >= 0; i--) {
+        const line = lines[i];
+        if (!line) continue;
+
+        const pipeIndex = line.indexOf("|");
+        if (pipeIndex > 0) {
+          const lineNumStr = line.substring(0, pipeIndex);
+          const lineNum = parseInt(lineNumStr, 10);
+          if (!isNaN(lineNum)) {
+            return ok(lineNum + 1);
+          }
+        }
       }
 
-      const parts = lastLine.split("|", 1);
-      const lineNum = parseInt(parts[0] ?? "0", 10);
-
-      return ok(lineNum + 1);
+      // If no valid line number found, start at 1
+      return ok(1);
     } catch (error) {
       return err(toError(error));
     }
   }
 
   /**
-   * Append line to file
+   * Append line to file (with sanitization)
    */
   async appendLine(fileName: string, data: string): Promise<Result<number>> {
     const lockResult = await this.acquireLock(fileName);
@@ -230,6 +239,75 @@ export class AICFWriter {
   }
 
   /**
+   * Append line to file (without sanitization - for pre-sanitized structured data)
+   * Handles multi-line data by only adding line number to the first line
+   */
+  private async appendLineRaw(
+    fileName: string,
+    data: string
+  ): Promise<Result<number>> {
+    const lockResult = await this.acquireLock(fileName);
+    if (!lockResult.ok) {
+      return err(lockResult.error);
+    }
+
+    const lockKey = lockResult.value;
+
+    try {
+      const filePath = join(this.aicfDir, fileName);
+
+      const lineNumResult = await this.getNextLineNumber(filePath);
+      if (!lineNumResult.ok) {
+        return err(lineNumResult.error);
+      }
+
+      const lineNum = lineNumResult.value;
+
+      // For multi-line data, only add line number to the first line
+      const lines = data.split("\n");
+      const formattedLines = lines.map((line, index) => {
+        if (index === 0) {
+          return `${lineNum}|${line}`;
+        } else {
+          return line;
+        }
+      });
+      const formattedData = formattedLines.join("\n") + "\n";
+
+      const writeResult = await atomicFileOperation(
+        filePath,
+        async (tempPath) => {
+          const existsResult = await this.fs.exists(filePath);
+          if (existsResult.ok && existsResult.value) {
+            const contentResult = await this.fs.readFile(filePath);
+            if (contentResult.ok) {
+              await this.fs.writeFile(
+                tempPath,
+                contentResult.value + formattedData
+              );
+            } else {
+              await this.fs.writeFile(tempPath, formattedData);
+            }
+          } else {
+            await this.fs.writeFile(tempPath, formattedData);
+          }
+          return lineNum;
+        }
+      );
+
+      if (!writeResult.ok) {
+        return err(writeResult.error);
+      }
+
+      return ok(lineNum);
+    } catch (error) {
+      return err(toError(error));
+    } finally {
+      this.releaseLock(lockKey);
+    }
+  }
+
+  /**
    * Write conversation
    */
   async writeConversation(conversation: {
@@ -247,7 +325,7 @@ export class AICFWriter {
         `content=${sanitizePipeData(conversation.content)}`,
       ].join("\n");
 
-      return await this.appendLine("conversations.aicf", data);
+      return await this.appendLineRaw("conversations.aicf", data);
     } catch (error) {
       return err(toError(error));
     }
@@ -271,7 +349,7 @@ export class AICFWriter {
         `timestamp=${sanitizePipeData(memory.timestamp)}`,
       ].join("\n");
 
-      return await this.appendLine("memories.aicf", data);
+      return await this.appendLineRaw("memories.aicf", data);
     } catch (error) {
       return err(toError(error));
     }
@@ -293,7 +371,143 @@ export class AICFWriter {
         `timestamp=${sanitizePipeData(decision.timestamp)}`,
       ].join("\n");
 
-      return await this.appendLine("decisions.aicf", data);
+      return await this.appendLineRaw("decisions.aicf", data);
+    } catch (error) {
+      return err(toError(error));
+    }
+  }
+
+  /**
+   * Write session (AICF v3.1)
+   * Track conversation lifecycle and session metrics
+   */
+  async writeSession(session: {
+    id: string;
+    app_name: string;
+    user_id: string;
+    created_at: string;
+    last_update_time: string;
+    status: "active" | "completed" | "archived";
+    event_count?: number;
+    total_tokens?: number;
+    session_duration_seconds?: number;
+  }): Promise<Result<number>> {
+    try {
+      const data = [
+        `@SESSION:${sanitizePipeData(session.id)}`,
+        `app_name=${sanitizePipeData(session.app_name)}`,
+        `user_id=${sanitizePipeData(session.user_id)}`,
+        `created_at=${sanitizePipeData(session.created_at)}`,
+        `last_update_time=${sanitizePipeData(session.last_update_time)}`,
+        `status=${sanitizePipeData(session.status)}`,
+      ];
+
+      if (session.event_count !== undefined) {
+        data.push(`event_count=${session.event_count}`);
+      }
+      if (session.total_tokens !== undefined) {
+        data.push(`total_tokens=${session.total_tokens}`);
+      }
+      if (session.session_duration_seconds !== undefined) {
+        data.push(
+          `session_duration_seconds=${session.session_duration_seconds}`
+        );
+      }
+
+      return await this.appendLineRaw("sessions.aicf", data.join("\n"));
+    } catch (error) {
+      return err(toError(error));
+    }
+  }
+
+  /**
+   * Write embedding (AICF v3.1)
+   * Enable semantic search with vector embeddings
+   */
+  async writeEmbedding(embedding: {
+    id: string;
+    model: string;
+    dimension: number;
+    vector: number[] | string;
+    indexed_at: string;
+    similarity_threshold?: number;
+    keywords?: string[];
+  }): Promise<Result<number>> {
+    try {
+      const vectorStr =
+        typeof embedding.vector === "string"
+          ? embedding.vector
+          : embedding.vector.join(",");
+
+      const data = [
+        `@EMBEDDING:${sanitizePipeData(embedding.id)}`,
+        `model=${sanitizePipeData(embedding.model)}`,
+        `dimension=${embedding.dimension}`,
+        `vector=${sanitizePipeData(vectorStr)}`,
+        `indexed_at=${sanitizePipeData(embedding.indexed_at)}`,
+      ];
+
+      if (embedding.similarity_threshold !== undefined) {
+        data.push(`similarity_threshold=${embedding.similarity_threshold}`);
+      }
+      if (embedding.keywords && embedding.keywords.length > 0) {
+        // Join keywords with pipe - don't sanitize the pipes themselves
+        // Individual keywords should not contain pipes
+        data.push(`keywords=${embedding.keywords.join("|")}`);
+      }
+
+      return await this.appendLineRaw("embeddings.aicf", data.join("\n"));
+    } catch (error) {
+      return err(toError(error));
+    }
+  }
+
+  /**
+   * Write consolidation (AICF v3.1)
+   * Track memory consolidation and lifecycle management
+   */
+  async writeConsolidation(consolidation: {
+    id: string;
+    source_items: string[];
+    consolidated_at: string;
+    method:
+      | "semantic_clustering"
+      | "temporal_summarization"
+      | "deduplication"
+      | "importance_filtering";
+    semantic_theme?: string;
+    key_facts?: string[];
+    information_preserved?: number;
+    compression_ratio?: number;
+  }): Promise<Result<number>> {
+    try {
+      const data = [
+        `@CONSOLIDATION:${sanitizePipeData(consolidation.id)}`,
+        // Join source items with pipe - don't sanitize the pipes themselves
+        `source_items=${consolidation.source_items.join("|")}`,
+        `consolidated_at=${sanitizePipeData(consolidation.consolidated_at)}`,
+        `method=${sanitizePipeData(consolidation.method)}`,
+      ];
+
+      if (consolidation.semantic_theme) {
+        data.push(
+          `semantic_theme=${sanitizePipeData(consolidation.semantic_theme)}`
+        );
+      }
+      if (consolidation.key_facts && consolidation.key_facts.length > 0) {
+        // Join key facts with pipe - don't sanitize the pipes themselves
+        data.push(`key_facts=${consolidation.key_facts.join("|")}`);
+      }
+      if (consolidation.information_preserved !== undefined) {
+        data.push(
+          `information_preserved=${consolidation.information_preserved}%`
+        );
+      }
+      if (consolidation.compression_ratio !== undefined) {
+        data.push(`compression_ratio=${consolidation.compression_ratio}`);
+      }
+
+      return await this.appendLineRaw("consolidations.aicf", data.join("\n"));
     } catch (error) {
       return err(toError(error));
     }

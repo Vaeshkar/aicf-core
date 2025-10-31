@@ -38,6 +38,12 @@ export {
   type AnalysisResult,
 } from "./writers/MemoryFileWriter.js";
 
+// AICE-to-AICF Bridge (new in v2.2.0)
+export {
+  AICEToAICFBridge,
+  type AICEToAICFBridgeOptions,
+} from "./bridges/aice-to-aicf.js";
+
 // Types
 export type {
   Result,
