@@ -6,11 +6,22 @@
  * Enterprise-grade AI memory system with 95.5% compression and zero semantic loss
  */
 
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
 // Core classes
 import { AICFAPI } from "./aicf-api.js";
 import { AICFReader } from "./aicf-reader.js";
 import { AICFWriter } from "./aicf-writer.js";
 import { AICFSecure } from "./aicf-secure.js";
+
+// Read version from package.json dynamically
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const packageJsonPath = join(__dirname, "../package.json");
+const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+const PACKAGE_VERSION = packageJson.version;
 
 export { AICFAPI } from "./aicf-api.js";
 export {
@@ -43,6 +54,12 @@ export {
   AICEToAICFBridge,
   type AICEToAICFBridgeOptions,
 } from "./bridges/aice-to-aicf.js";
+
+// Watchers (new in v2.3.0)
+export {
+  JSONToAICFWatcher,
+  type JSONToAICFWatcherConfig,
+} from "./watchers/json-to-aicf-watcher.js";
 
 // Types
 export type {
@@ -180,7 +197,7 @@ export class AICF extends AICFAPI {
     semanticLoss: string;
   } {
     return {
-      version: "2.1.0",
+      version: PACKAGE_VERSION, // Read dynamically from package.json
       aicfFormat: "3.1.1",
       compressionRatio: "95.5%",
       semanticLoss: "0%",

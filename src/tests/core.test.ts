@@ -7,7 +7,17 @@
 
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 import AICF from "../index.js";
+
+// Read expected version from package.json
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const packageJsonPath = join(__dirname, "../../package.json");
+const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf-8"));
+const EXPECTED_VERSION = packageJson.version;
 
 describe("Core Functionality Tests", () => {
   describe("Factory Methods", () => {
@@ -40,7 +50,7 @@ describe("Core Functionality Tests", () => {
       const version = AICF.getVersion();
       assert.ok(version.version);
       assert.ok(version.aicfFormat);
-      assert.equal(version.version, "2.0.0");
+      assert.equal(version.version, EXPECTED_VERSION); // Dynamic from package.json
       assert.equal(version.aicfFormat, "3.1.1");
     });
   });
@@ -56,4 +66,3 @@ describe("Core Functionality Tests", () => {
     });
   });
 });
-
