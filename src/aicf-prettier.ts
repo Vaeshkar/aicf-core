@@ -1,5 +1,5 @@
 /**
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 Dennis van Leeuwen
  *
  * AICF Prettier - Converts any AICF-like format to clean AICF 3.0 specification

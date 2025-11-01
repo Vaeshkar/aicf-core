@@ -1,5 +1,5 @@
 /**
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 Dennis van Leeuwen
  *
  * AICF Compiler - Compile structured data to AICF v3.1.1 format

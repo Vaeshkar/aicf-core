@@ -321,7 +321,7 @@ See [Contributing Guidelines](../CONTRIBUTING.md) for details.
 
 ## 📄 License
 
-AICF-Core is licensed under **AGPL-3.0-or-later**.
+AICF-Core is licensed under **MIT**.
 
 This ensures AICF remains open source and benefits the entire AI community.
 

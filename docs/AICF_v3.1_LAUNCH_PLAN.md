@@ -35,7 +35,7 @@ AICF v3.1 introduces production-proven memory management patterns from **Google'
 **Competitive Position**:
 - **ONLY open-source AI memory format with Google-validated patterns**
 - Universal platform support (ChatGPT, Claude, Cursor, Copilot, v0.dev)
-- Free forever (AGPL-3.0)
+- Free forever (MIT-3.0)
 - Git-native with version control
 - 95.5% compression, zero semantic loss
 

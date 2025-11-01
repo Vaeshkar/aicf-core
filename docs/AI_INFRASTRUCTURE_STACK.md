@@ -636,7 +636,7 @@ As AIs become more capable:
 - Revenue: None (infrastructure)
 
 **AIOB (Orchestrator):**
-- License: Dual (AGPLv3 + Commercial)
+- License: Dual (MIT + Commercial)
 - Goal: Open source community + enterprise revenue
 - Revenue: SaaS + Enterprise licenses
 

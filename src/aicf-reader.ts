@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
- * SPDX-License-Identifier: AGPL-3.0-or-later
+ * SPDX-License-Identifier: MIT
  * Copyright (c) 2025 Dennis van Leeuwen
  *
  * AICF Reader - Programmatic access to AI Context Format files

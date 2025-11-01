@@ -36,7 +36,7 @@
 ### What AICF Has That Competitors Don't:
 ✅ **Universal AI Support** - Works with ALL platforms, not just Claude Code
 ✅ **Git-Native** - Files live in your repo, not external app
-✅ **Open Source** - Community can extend, no vendor lock-in (AGPL-3.0)
+✅ **Open Source** - Community can extend, no vendor lock-in (MIT)
 ✅ **Free Forever** - No $59 barrier, no pricing pressure
 ✅ **Portable** - Switch AIs freely, take files anywhere
 ✅ **Team Collaboration** - Files in git = easy sharing
@@ -72,7 +72,7 @@
 1. **Multi-AI Universal**: Works with ChatGPT, Claude, Cursor, Copilot, v0.dev, etc.
 2. **Git-Native Integration**: Lives in your repo, not external database
 3. **Zero Cost Forever**: No $59 barriers, no subscription pressure
-4. **Open Source Governance**: Community ownership (AGPL-3.0)
+4. **Open Source Governance**: Community ownership (MIT)
 5. **Portability**: Switch platforms freely, take data anywhere
 6. **Team Collaboration**: Git = built-in sharing and versioning
 
@@ -140,7 +140,7 @@
 1. **Multi-AI Collaboration Story** - Unique development approach
 2. **Open Source Network Effects** - Community contributions
 3. **Git-Native Simplicity** - Just files, no complexity
-4. **AGPL-3.0 Protection** - Derivatives must be open source
+4. **MIT Protection** - Derivatives must be open source
 5. **Platform Agnosticism** - Universal by design
 6. **Zero Cost Forever** - No pricing pressure
 

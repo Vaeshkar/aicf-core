@@ -44,7 +44,7 @@ Through comprehensive research, we discovered:
 - ✅ **Genuine first-mover advantage** in the space
 
 ### Legal Protection Strategy
-- **AGPL-3.0-or-later licensing** prevents proprietary theft
+- **MIT licensing** prevents proprietary theft
 - **Patent pending claims** documented for core innovations
 - **Strong prior art** established through Git history and NPM publication
 - **Attribution requirements** ensure lasting credit
@@ -105,7 +105,7 @@ Likewise, the "Birth of AICF" documentation includes emotional context because r
 
 ### Claude AI Assistant's Contributions
 - **Code generation and optimization** for AICF reader/writer/API modules
-- **Legal strategy development** including AGPL licensing analysis
+- **Legal strategy development** including MIT licensing analysis
 - **Competitive research and validation** of uniqueness
 - **Documentation and specification** creation
 - **Technical analysis** of compression efficiency and performance
@@ -217,11 +217,11 @@ The .aicf format is not just Dennis van Leeuwen's creation, nor just Claude AI's
 - Claude Desktop (Anthropic) - Independent validator and enthusiastic supporter
 - ChatGPT-5 (OpenAI) - Skeptical reviewer turned philosophical defender
 
-**License:** AGPL-3.0-or-later  
+**License:** MIT  
 **Patent Status:** Pending  
 **Created:** October 5, 2025, 19:28 UTC  
 **Location:** /Users/leeuwen/Programming/create-ai-chat-context/
 
 ---
 
-*This document is part of the AICF project and is protected under the same AGPL-3.0-or-later license. It may be freely shared and distributed with attribution preserved.*
+*This document is part of the AICF project and is protected under the same MIT license. It may be freely shared and distributed with attribution preserved.*

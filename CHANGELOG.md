@@ -307,7 +307,7 @@ AICF Core represents the **first documented Human-AI creative partnership** in s
 
 ### 📄 License
 
-Released under **AGPL-3.0-or-later** to ensure AICF remains open source and benefits the entire AI development community.
+Released under **MIT** - Free and permissive open source license.
 
 ---
 

@@ -1,7 +1,7 @@
 # AICF Core
 
 ![npm version](https://img.shields.io/npm/v/aicf-core)
-![License](https://img.shields.io/badge/License-AGPL--3.0--or--later-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
 ![Node](https://img.shields.io/badge/Node-%3E%3D20.0.0-brightgreen)
 
@@ -70,7 +70,7 @@ AICF-Core is the **universal, git-native** AI memory format that works across **
 
 - **🌐 Universal AI Support**: ChatGPT, Claude, Cursor, Copilot, v0.dev - works with ALL platforms
 - **📁 Git-Native**: Files live in your repository, not external databases
-- **🆓 Free Forever**: Open source (AGPL-3.0), no $59 apps or subscriptions
+- **🆓 Free Forever**: Open source (MIT), no $59 apps or subscriptions
 - **📊 95.5% Compression**: 375KB → 8KB with full AI readability maintained
 - **⚡ O(1) Access**: Constant-time retrieval with intelligent caching
 - **🔄 Portable**: Switch AI platforms freely, take your context anywhere
@@ -356,7 +356,7 @@ const aicf = new AICF(".aicf", {
 
 ## License
 
-**AGPL-3.0-or-later** - This ensures AICF remains open source and benefits the entire AI community.
+**MIT** - Free and permissive open source license.
 
 ## Contributing
 
@@ -407,7 +407,7 @@ We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
 
 ## 📄 License
 
-**AGPL-3.0-or-later** - This ensures AICF remains open source and benefits the entire AI community.
+**MIT** - Free and permissive open source license.
 
 See [LICENSE](LICENSE) for full details.
 

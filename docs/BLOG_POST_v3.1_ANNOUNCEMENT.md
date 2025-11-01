@@ -191,7 +191,7 @@ You get an **open standard** for AI memory management. No vendor lock-in, no pro
 | Industry Validation | ✅ Google CloudAI | ❌ No | ❌ No |
 | Platform Support | ✅ Universal | ❌ Claude only | ❌ Single |
 | Cost | ✅ Free forever | ❌ $59-$109 | ❌ Paid |
-| Open Source | ✅ AGPL-3.0 | ❌ Proprietary | ❌ Proprietary |
+| Open Source | ✅ MIT-3.0 | ❌ Proprietary | ❌ Proprietary |
 
 **AICF v3.1 is the ONLY open-source AI memory format with Google-validated patterns.**
 

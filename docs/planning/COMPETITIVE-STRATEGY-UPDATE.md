@@ -60,7 +60,7 @@
 1. **Multi-AI Collaboration Story** - Built BY 4 AIs (unique credibility)
 2. **Open Source Network Effects** - Community contributions and ownership
 3. **Git-Native Simplicity** - Just files, no external dependencies
-4. **AGPL-3.0 Protection** - Derivatives must be open source
+4. **MIT-3.0 Protection** - Derivatives must be open source
 5. **Platform Agnosticism** - Universal by design philosophy
 6. **Zero Cost Forever** - No pricing pressure or monetization conflicts
 

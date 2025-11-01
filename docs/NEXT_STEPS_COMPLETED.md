@@ -217,7 +217,7 @@ Following the successful release of AICF v3.1 with Google ADK memory management 
 2. ✅ **Production-proven** (Google ADK, Vertex AI, LangChain/LangGraph)
 3. ✅ **Industry endorsed** (Saurabh Tiwary, VP & GM CloudAI @ Google)
 4. ✅ **Universal platform support** (ChatGPT, Claude, Cursor, Copilot, v0.dev)
-5. ✅ **Free forever** (AGPL-3.0 open source)
+5. ✅ **Free forever** (MIT-3.0 open source)
 6. ✅ **Git-native** (version control, branching, team collaboration)
 7. ✅ **95.5% compression** with zero semantic loss
 8. ✅ **Backward compatible** (v3.0 files work in v3.1 readers)
