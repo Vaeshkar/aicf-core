@@ -511,4 +511,20 @@ export class AICFWriter {
       return err(toError(error));
     }
   }
+
+  /**
+   * Append multiple lines to a file (for watcher use)
+   * Used by JSON-to-AICF watcher to write converted data
+   */
+  async appendLines(
+    filename: string,
+    lines: string[]
+  ): Promise<Result<number>> {
+    try {
+      const content = lines.join("\n") + "\n";
+      return await this.appendLineRaw(filename, content);
+    } catch (error) {
+      return err(toError(error));
+    }
+  }
 }
