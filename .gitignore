@@ -58,6 +58,7 @@ Thumbs.db
 test-data/
 *.test.aicf
 *.debug.aicf
+tests/security/.test-data/
 
 # Temporary files
 tmp/

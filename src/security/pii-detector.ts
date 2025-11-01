@@ -138,6 +138,7 @@ export function containsAPIKeys(text: string): boolean {
     "awsKey",
     "githubToken",
     "openaiKey",
+    "anthropicKey",
   ];
 
   for (const type of apiKeyTypes) {

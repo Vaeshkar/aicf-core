@@ -37,9 +37,18 @@ export {
   PII_PATTERNS,
   validateCreditCard,
   validateSSN,
+  smartMask,
+  maskAPIKey,
   type PIIPattern,
   type PIIType,
 } from "./pii-patterns.js";
+
+// Secure AICF Writer
+export {
+  SecureAICFWriter,
+  type SecureAICFWriterConfig,
+  type RedactionLog,
+} from "./secure-aicf-writer.js";
 
 // File operations
 export {
