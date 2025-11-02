@@ -98,6 +98,8 @@ export interface JSONToAICFWatcherConfig {
 /**
  * JSON to AICF Watcher
  * Monitors .aicf/raw/ for new JSON files and converts them to AICF v3.1 format
+ *
+ * Day 4 Simplification: Only writes to conversations.aicf (no more separate files)
  */
 export class JSONToAICFWatcher {
   private readonly rawDir: string;
@@ -259,16 +261,21 @@ export class JSONToAICFWatcher {
   }
 
   /**
-   * Convert JSON to AICF v3.1 format and write to 4 core files
+   * Convert JSON to AICF v3.1 format and write to conversations.aicf ONLY
+   *
+   * Day 4 Simplification: All data (conversations, insights, decisions) goes into
+   * a single conversations.aicf file. Phase 5b (LILL-Meta) will extract and filter
+   * this data into QuadIndex.
    */
   private async convertToAICF(data: ConversationJSON): Promise<Result<void>> {
     try {
       const { metadata, conversation, key_exchanges, decisions, insights } =
         data;
 
-      // 1. Write to conversations.aicf
+      // Write everything to conversations.aicf (single file!)
       const conversationLines: string[] = [];
 
+      // 1. Conversation metadata
       conversationLines.push(
         `@CONVERSATION|${metadata.conversationId}|${metadata.timestamp_start}`
       );
@@ -282,9 +289,8 @@ export class JSONToAICFWatcher {
       conversationLines.push(`messages|${metadata.messages}`);
       conversationLines.push(`tokens|${metadata.tokens_estimated}`);
 
-      // Add key exchanges
+      // 2. Key exchanges (first 10)
       for (const exchange of key_exchanges.slice(0, 10)) {
-        // First 10 exchanges
         if (exchange.role && exchange.content) {
           // New format (from AICE writeJSON)
           conversationLines.push(
@@ -303,49 +309,28 @@ export class JSONToAICFWatcher {
         }
       }
 
-      conversationLines.push(""); // Empty line separator
-
-      await this.writer.appendLines("conversations.aicf", conversationLines);
-
-      // 2. Write to insights.aicf
+      // 3. Insights (inline, not separate file)
       if (insights.length > 0) {
-        const insightLines: string[] = [];
-
-        insightLines.push(
-          `@INSIGHTS|${metadata.conversationId}|${metadata.timestamp_start}`
-        );
         for (const insight of insights) {
-          insightLines.push(
+          conversationLines.push(
             `insight|${insight.timestamp}|${insight.type}|${insight.insight}`
           );
         }
-        insightLines.push("");
-
-        await this.writer.appendLines("insights.aicf", insightLines);
       }
 
-      // 3. Write to decisions.aicf
+      // 4. Decisions (inline, not separate file)
       if (decisions.length > 0) {
-        const decisionLines: string[] = [];
-
-        decisionLines.push(
-          `@DECISION|${metadata.conversationId}|${metadata.timestamp_start}`
-        );
         for (const decision of decisions) {
-          decisionLines.push(
-            `decision|${decision.timestamp}|${decision.decision}`
+          conversationLines.push(
+            `decision|${decision.timestamp}|${decision.decision}|${decision.context}|${decision.impact}`
           );
-          decisionLines.push(`context|${decision.context}`);
-          decisionLines.push(`impact|${decision.impact}`);
         }
-        decisionLines.push("");
-
-        await this.writer.appendLines("decisions.aicf", decisionLines);
       }
 
-      // 4. Check for principles and write to principles.aicf
-      // (For now, we'll extract principles in LILL-Meta phase)
-      // This is a placeholder for future principle extraction
+      conversationLines.push(""); // Empty line separator
+
+      // Write to conversations.aicf ONLY (no more insights.aicf, decisions.aicf, principles.aicf)
+      await this.writer.appendLines("conversations.aicf", conversationLines);
 
       return ok(undefined);
     } catch (error) {
