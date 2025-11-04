@@ -2,8 +2,10 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  * Copyright (c) 2025 Dennis van Leeuwen
  *
- * JSON to AICF Watcher - Watches .aicf/raw/ for new JSON files and converts to AICF v3.1
+ * JSON Watcher - Watches .aicf/raw/ for new JSON files and converts to AICF v3.1
  * Phase 2: AICF-Core Watcher
+ *
+ * Renamed from JSONToAICFWatcher to JSONWatcher (future-proof naming)
  */
 
 import { watch, type FSWatcher } from "node:fs";
@@ -32,11 +34,11 @@ interface ConversationJSON {
     messages: number;
     tokens_estimated: number;
   };
-  conversation: {
-    topic: string;
-    summary: string;
-    participants: string[];
-    flow: string[];
+  conversation?: {
+    topic?: string;
+    summary?: string;
+    participants?: string[];
+    flow?: string[];
   };
   key_exchanges: Array<{
     index?: number;
@@ -96,12 +98,13 @@ export interface JSONToAICFWatcherConfig {
 }
 
 /**
- * JSON to AICF Watcher
+ * JSON Watcher
  * Monitors .aicf/raw/ for new JSON files and converts them to AICF v3.1 format
  *
  * Day 4 Simplification: Only writes to conversations.aicf (no more separate files)
+ * Renamed from JSONToAICFWatcher to JSONWatcher (future-proof naming)
  */
-export class JSONToAICFWatcher {
+export class JSONWatcher {
   private readonly rawDir: string;
   private readonly aicfDir: string;
   private readonly writer: AICFWriter;
@@ -279,10 +282,11 @@ export class JSONToAICFWatcher {
       conversationLines.push(
         `@CONVERSATION|${metadata.conversationId}|${metadata.timestamp_start}`
       );
-      conversationLines.push(`topic|${conversation.topic}`);
-      conversationLines.push(`summary|${conversation.summary}`);
+      // Use fallback values if conversation fields are missing
+      conversationLines.push(`topic|${conversation?.topic || "Untitled"}`);
+      conversationLines.push(`summary|${conversation?.summary || ""}`);
       conversationLines.push(
-        `participants|${conversation.participants.join(",")}`
+        `participants|${conversation?.participants?.join(",") || "user,assistant"}`
       );
       conversationLines.push(`platform|${metadata.platform}`);
       conversationLines.push(`duration_minutes|${metadata.duration_minutes}`);
@@ -338,3 +342,6 @@ export class JSONToAICFWatcher {
     }
   }
 }
+
+// Backward compatibility alias
+export { JSONWatcher as JSONToAICFWatcher };

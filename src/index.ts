@@ -55,11 +55,18 @@ export {
   type AICEToAICFBridgeOptions,
 } from "./bridges/aice-to-aicf.js";
 
-// Watchers (new in v2.3.0)
+// Watchers (new in v2.3.0, simplified in v2.4.0)
 export {
-  JSONToAICFWatcher,
-  type JSONToAICFWatcherConfig,
-} from "./watchers/json-to-aicf-watcher.js";
+  ConversationWatcher,
+  JSONWatcher, // Backward compatibility alias
+  JSONToAICFWatcher, // Backward compatibility alias
+  type ConversationWatcherConfig,
+  type ConversationStats,
+  type ExtractedPrinciple,
+  type ExtractedRelationship,
+  type ExtractedHypothetical,
+  type ExtractedRejected,
+} from "./watchers/conversation-watcher.js";
 
 // Types
 export type {
