@@ -80,6 +80,13 @@ export class AICFWriter {
   private ensureDirectory(): void {
     try {
       if (!existsSync(this.aicfDir)) {
+        // DEBUG: Log who is creating .aicf folder
+        if (this.aicfDir.includes(".aicf")) {
+          console.error(
+            `🚨 WARNING: Creating .aicf folder at: ${this.aicfDir}`
+          );
+          console.error("Stack trace:", new Error().stack);
+        }
         mkdirSync(this.aicfDir, { recursive: true });
       }
     } catch (error) {
