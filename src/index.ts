@@ -114,6 +114,12 @@ export {
   compileSession,
   compileConversations,
 } from "./parsers/aicf-compiler.js";
+export {
+  AugmentMemoriesParser,
+  type MemorySection,
+  type MemoryItem,
+  type AugmentMemoriesResult,
+} from "./parsers/AugmentMemoriesParser.js";
 
 // Security
 export { validatePath, normalizePath } from "./security/path-validator.js";
